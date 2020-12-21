@@ -8,7 +8,9 @@ import Services from "./pages/Services";
 import About from "./pages/About";
 import AdminHome from "./admin/Admin_Home";
 import Login from "./admin/Login";
-import Navbar from "./components/Navbar"
+import Blogs from "./pages/Blogs";
+import SingleBlog from "./pages/SingleBlog";
+import Navbar from "./components/Navbar";
 
 
 // Using router and switch to route the pages from one to another
@@ -23,6 +25,8 @@ function App() {
                 <Route path="/about" component={About} />
                 <Route path="/admin" component={Login} />
                 <Route path="/admin-home" component={AdminHome} />
+                <Route path="/blogs" component={Blogs} />
+                <Route path="/singleblog" component={SingleBlog} />
             </Switch>
         </Router>
     );

@@ -13,6 +13,16 @@ function Navbar() {
 
     return (
         <nav className="navbar">
+            <Link
+                        to="/"
+                        onClick={closeMobileViewMenu}
+                    >
+            <img
+                src="https://firebasestorage.googleapis.com/v0/b/aayansh-clinic.appspot.com/o/images%2Flogo.jpg?alt=media&token=f36e2f57-1883-43a2-88c6-9e60ed7a4749"
+                alt="LOGO"
+                className="logo"
+            />
+            </Link>
             {/* Clicking on menu-icon displays menu item */}
             <div className="menu-icon" onClick={handleClick}>
                 {/* Takes to the hamberger menu when clicked else bars */}
@@ -48,14 +58,22 @@ function Navbar() {
                         ABOUT US
                     </Link>
                 </li>
-
-                <li>
+                <li className="nav-item">
                     <Link
                         to="/contact"
                         className="nav-links"
                         onClick={closeMobileViewMenu}
                     >
                         CONTACT US
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link
+                        to="/blogs"
+                        className="nav-links"
+                        onClick={closeMobileViewMenu}
+                    >
+                        BLOGS
                     </Link>
                 </li>
             </ul>
