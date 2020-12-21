@@ -1,11 +1,30 @@
+// importing all required functions and packages.
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
+import Home from "./pages/Home";
+import Contact from "./pages/Contact";
+import Services from "./pages/Services";
+import About from "./pages/About";
+import AdminHome from "./admin/Admin_Home";
+import Login from "./admin/Login";
+import Navbar from "./components/Navbar"
 
+
+// Using router and switch to route the pages from one to another
 function App() {
-    return(
-    <div className="App"> 
-        <img src="https://firebasestorage.googleapis.com/v0/b/aayansh-clinic.appspot.com/o/images%2Flogo.jpg?alt=media&token=f36e2f57-1883-43a2-88c6-9e60ed7a4749" alt="LOGO" className="logo" />
-        <p> Page is under construction. Coming soon... </p>
-    </div>
+    return (
+        <Router>
+            <Navbar />
+            <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/contact" component={Contact} />
+                <Route path="/services" component={Services} />
+                <Route path="/about" component={About} />
+                <Route path="/admin" component={Login} />
+                <Route path="/admin-home" component={AdminHome} />
+            </Switch>
+        </Router>
     );
 }
 

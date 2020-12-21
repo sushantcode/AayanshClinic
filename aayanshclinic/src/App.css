@@ -1,4 +1,4 @@
-.App {
+/* .App {
     text-align: center;
 }
 
@@ -36,8 +36,10 @@
         transform: rotate(360deg);
     }
 }
+ */
 
-.logo {
-    width: 200px;
-    height: 200px;
-}
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
