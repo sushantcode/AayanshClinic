@@ -193,9 +193,9 @@ class Home extends Component {
                               </Carousel>
                             : "No Slides to show..."}
                     </Grid>
-                    <Grid item xs={10} className={classes.section2}>
+                    <Grid item xs={10} className={classes.section2} align="center">
                         <div className="section2-content">
-                            <h1 style={{marginBottom: 10, marginTop: 10, color: "black"}} align="center"><b>KEEPING YOUR HEALTH IN MIND</b></h1><br />
+                            <h1 style={{marginBottom: 10, marginTop: 10, color: "black"}}><b>KEEPING YOUR HEALTH IN MIND</b></h1><br />
                             <p className="section2p">Please call us to schedule an appointment or ask question with an expert 
                                 at our clinic. If you are having an emergency, please call 100 for immediate help.
                             </p>
