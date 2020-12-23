@@ -1,8 +1,10 @@
-import * as firebase from 'firebase';
+import app from 'firebase/app';
+import "firebase/firestore";
 
-const app = firebase.initializeApp({
+app.initializeApp({
     apiKey: "AIzaSyBhVndpU95bMbKlKeu4y81GwiEtCRYpFaQ",
     authDomain: "aayansh-clinic.firebaseapp.com",
+    databaseURL: "https://aayansh-clinic.firebaseio.com",
     projectId: "aayansh-clinic",
     storageBucket: "aayansh-clinic.appspot.com",
     messagingSenderId: "666831574732",
@@ -10,6 +12,6 @@ const app = firebase.initializeApp({
     measurementId: "G-YMEF4H8RCJ"
  });
 
-export const db = firebase.firestore(app);
-export const storage = firebase.storage(app);
+export const db = app.firestore();
+//export const storage = app.storage();
 export default app;

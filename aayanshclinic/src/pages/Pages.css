@@ -1,0 +1,20 @@
+.container {
+    margin-top: 10px;
+}
+
+.carousel .slide {
+    background-color: rgb(255, 255, 255);
+}
+
+.carousel .slide img {
+    max-height: 500px;
+    width: auto;
+}
+
+.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-3.MuiGrid-justify-xs-center {
+    width: 100%;
+}
+
+.MuiCardContent-root {
+    max-width: 500px;
+}
