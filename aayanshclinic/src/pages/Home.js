@@ -28,6 +28,7 @@ const useStyles = theme => ({
     section4: {
         height: 220,
         marginTop: 30,
+        marginBottom: 30,
         backgroundImage: `url(${"https://thumbs.dreamstime.com/b/medicine-doctor-touching-electronic-medical-record-tablet-dna-digital-healthcare-network-connection-hologram-modern-virtual-154742526.jpg"})`
     }
 });

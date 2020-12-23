@@ -11,6 +11,7 @@ import Login from "./admin/Login";
 import Blogs from "./pages/Blogs";
 import SingleBlog from "./pages/SingleBlog";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer"
 
 
 // Using router and switch to route the pages from one to another
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/blogs" component={Blogs} />
                 <Route path="/singleblog" component={SingleBlog} />
             </Switch>
+            <Footer />
         </Router>
     );
 }
