@@ -31,3 +31,46 @@
     filter: none;
 }
 
+.section2p {
+    font-size: 1.5rem;
+}
+
+.section3 p {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.subscribe-section
+.section2-content {
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    max-width: 50%;
+    max-height: 50%;
+}
+
+.email {
+    border-radius: 20px;
+    font-size: 15px;
+    margin-top: 15px;
+    height: 50px;
+    width: 60%;
+    background: none;
+    outline: none;
+}
+
+.signup-btn {
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 15px;
+    height: 50px;
+    width: 100px;
+    margin-left: 30px;
+    background-color: rgb(24, 120, 185);
+  }
+  
+  .signup-btn:hover {
+    background-color: rgb(197, 138, 138);
+    color: #242424;
+    border-radius: 10;
+  }
