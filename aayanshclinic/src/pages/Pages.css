@@ -4,17 +4,30 @@
 
 .carousel .slide {
     background-color: rgb(255, 255, 255);
+
 }
 
 .carousel .slide img {
     max-height: 500px;
-    width: auto;
+}
+
+.carousel .slide .thumbils img {
+    filter: blur(8px);
+}
+
+.carousel .slide.selected .thumbils img {
+    filter: none;
 }
 
 .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-3.MuiGrid-justify-xs-center {
     width: 100%;
 }
 
-.MuiCardContent-root {
-    max-width: 500px;
+.carousel .slide .MuiPaper-root.MuiCard-root.MuiPaper-elevation1.MuiPaper-rounded {
+    filter: blur(8px);
 }
+
+.carousel .slide.selected .MuiPaper-root.MuiCard-root.MuiPaper-elevation1.MuiPaper-rounded {
+    filter: none;
+}
+

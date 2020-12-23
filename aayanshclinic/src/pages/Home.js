@@ -5,7 +5,6 @@ import { Carousel } from "react-responsive-carousel";
 //import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { db } from "../components/FirebaseAuth";
-import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -13,12 +12,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
-const useStyles = theme => ({
-    root: {
-        maxWidth: 350,
-    }
-});
 
 class Home extends Component {
     state = {
@@ -69,7 +62,6 @@ class Home extends Component {
     }
 
     render() {
-        const { classes } = this.props;
         let imageComponent = [];
         if (this.state.items) {
             imageComponent = this.state.items.map(eachItem =>
@@ -87,7 +79,7 @@ class Home extends Component {
         if (this.state.blogs) {
             blogComponent = this.state.blogs.map((eachItem) => {
                 if (eachItem.img !== "") {
-                    return <Card className={classes.root}>
+                    return <Card>
                         <CardActionArea>
                             <CardMedia
                                 component="img"
@@ -124,7 +116,7 @@ class Home extends Component {
                     </Card>
                 }
                 else {
-                    return <Card className="cardRoot">
+                    return <Card>
                         <CardActionArea>
                             <CardContent>
                                 <Typography
@@ -169,7 +161,11 @@ class Home extends Component {
                                   infiniteLoop={true}
                                   dynamicHeight={true}
                                   swipeable={true}
-                                  centerSlidePercentage={70}
+                                  centerMode={true}
+                                  centerSlidePercentage={50}
+                                  emulateTouch={true}
+                                  showIndicators={false}
+                                  showThumbs={false}
                               >
                                   {slides}
                               </Carousel>
@@ -181,4 +177,4 @@ class Home extends Component {
     }
 }
 
-export default withStyles(useStyles)(Home);
+export default Home;
