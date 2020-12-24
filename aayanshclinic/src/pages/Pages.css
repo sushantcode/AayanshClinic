@@ -1,10 +1,15 @@
 .container-home {
-    margin-top: 10px;
+    margin-top: 20px;
     min-height: 100vh;
 }
 
 .container-services {
-    margin-top: 10px;
+    margin-top: 20px;
+    min-height: 100vh;
+}
+
+.container-about {
+    margin-top: 20px;
     min-height: 100vh;
 }
 
@@ -87,6 +92,26 @@
 
 .container-services h1 {
     font-weight: normal;
+}
+
+.teamList
+.specialty {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.teamList li {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    list-style-type: none;
+}
+
+.specialty li {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    list-style-type: none;
 }
 
 @media screen and (max-width: 900px) {
