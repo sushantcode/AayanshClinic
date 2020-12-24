@@ -13,6 +13,11 @@
     min-height: 100vh;
 }
 
+.container-contact {
+    margin-top: 20px;
+    min-height: 100vh;
+}
+
 .carousel .slide {
     background-color: rgb(255, 255, 255);
 }
@@ -102,7 +107,7 @@
 
 .teamList li {
     margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
     font-size: 1.5rem;
     list-style-type: none;
 }
@@ -112,6 +117,19 @@
     margin-bottom: 2rem;
     font-size: 1.5rem;
     list-style-type: none;
+}
+
+.form-download {
+    font-size: 25px;
+    text-align: center;
+}
+
+.form-download a {
+    text-decoration: none;
+}
+
+.messageBox {
+    text-align: center;
 }
 
 @media screen and (max-width: 900px) {
