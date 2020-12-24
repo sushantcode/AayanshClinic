@@ -1,4 +1,9 @@
-.container {
+.container-home {
+    margin-top: 10px;
+    min-height: 100vh;
+}
+
+.container-services {
     margin-top: 10px;
     min-height: 100vh;
 }
@@ -75,8 +80,22 @@
     border-radius: 10;
 }
 
+.ecg-image {
+    width: 100%;
+    height: auto;
+}
+
+.container-services h1 {
+    font-weight: normal;
+}
+
 @media screen and (max-width: 900px) {
     .email {
         max-width: 50%;
+    }
+
+    .container-services h1 {
+        font-weight: normal;
+        font-size: 25px;
     }
 }

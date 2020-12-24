@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./Pages.css";
 import { Carousel } from "react-responsive-carousel";
-//import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { db } from "../components/FirebaseAuth";
@@ -214,7 +213,7 @@ class Home extends Component {
         let slides = imageComponent.concat(blogComponent);
 
         return (
-            <div className="container">
+            <div className="container-home">
                 <Grid container spacing={0} justify="center">
                     <Grid item xs={10} className={classes.section1}>
                         {slides.length > 0
