@@ -28,6 +28,7 @@ const About = () => {
                             Amit Kumar Gupta, Medical Consultant Advisor,
                             Hamburg, Germany
                         </li>
+                        <li>Pooja Kumari, Registered Nurse (BPKIHS)</li>
                     </ul>
                 </Grid>
                 <Grid item xs={10} className={classes.section1}>
@@ -47,7 +48,7 @@ const About = () => {
                         <br />
                         <li>Special Services</li>
                         <p>
-                            Injections for the dog bites, A.R,V, Sangini, and
+                            Injections for the dog bites, A.R.V, Sangini, and
                             T.T. are available at an affordable price. Besides,
                             Aayanch Clinic also has lab testing services for
                             Blood tests, Urine tests, etc along with X-ray
