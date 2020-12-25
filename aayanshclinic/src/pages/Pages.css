@@ -132,6 +132,10 @@
     text-align: center;
 }
 
+.container-contact h4 a {
+    text-decoration: none;
+}
+
 @media screen and (max-width: 900px) {
     .email {
         max-width: 50%;
