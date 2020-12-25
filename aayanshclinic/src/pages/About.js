@@ -29,6 +29,7 @@ const About = () => {
                             Hamburg, Germany
                         </li>
                         <li>Pooja Kumari, Registered Nurse (BPKIHS)</li>
+                        <li>Dr. Ghanshyam Kumar Yadav, Senior Consultant Physician</li>
                     </ul>
                 </Grid>
                 <Grid item xs={10} className={classes.section1}>

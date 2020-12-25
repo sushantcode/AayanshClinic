@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
     section1: {
         marginBottom: 50
     },
+    section2: {
+        marginBottom: 2
+    },
     messageForm: {
         "& .MuiTextField-root": {
             margin: theme.spacing(1),
@@ -231,7 +234,7 @@ const Contact = props => {
                 <Grid
                     item
                     xs={12}
-                    className={classes.section1}
+                    className={classes.section2}
                     align="center"
                     style={{ position: "relative", height: "50vh" }}
                 >
@@ -267,5 +270,5 @@ const Contact = props => {
 };
 
 export default GoogleApiWrapper({
-    apiKey: "AIzaSyBoXHbYKSDMHUgZaqmhFIbIGGor-UK7D30"
+    apiKey: "MAP_API_REMOVED_FOR_SECURITY_REASON"
 })(Contact);
