@@ -230,7 +230,7 @@ const Contact = props => {
                 </Grid>
                 <Grid
                     item
-                    xs={10}
+                    xs={12}
                     className={classes.section1}
                     align="center"
                     style={{ position: "relative", height: "50vh" }}
@@ -267,5 +267,5 @@ const Contact = props => {
 };
 
 export default GoogleApiWrapper({
-    apiKey: "AIzaSyDdjmF7_X0oWaVI95rUXN2Csm3WdWyrBUc"
+    apiKey: "AIzaSyBoXHbYKSDMHUgZaqmhFIbIGGor-UK7D30"
 })(Contact);
