@@ -224,7 +224,7 @@ const Contact = props => {
                     <h4 style={{ marginBottom: 35, fontWeight: "normal" }}>
                         Monday-Sunday: 8:00AM - 8:00PM
                     </h4>
-                    <h4 style={{ marginBottom: 35, fontWeight: "normal" }}>
+                    <h4 style={{ marginBottom: 20, fontWeight: "normal" }}>
                         Emergency Service: 24/7
                     </h4>
                 </Grid>
