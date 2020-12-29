@@ -1,0 +1,41 @@
+.admin-navbar {
+    background: linear-gradient(
+        90deg,
+        rgba(123, 204, 241, 0.897) 0%,
+        rgb(123, 207, 240) 100%
+    );
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.container-admin-login
+.container-admin-home {
+    margin-top: 20px;
+    min-height: 100vh;
+}
+
+.admin-logo {
+    justify-self: start;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 2rem;
+    display: flex;
+    height: 195px;
+}
+
+@media screen and (max-width: 900px) {
+    .admin-navbar {
+        position: relative;
+    }
+
+    .container-admin-login {
+        position: relative;
+        display: flex;
+    }
+}

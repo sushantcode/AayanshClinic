@@ -1,6 +1,6 @@
 // importing all required functions and packages.
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
@@ -10,26 +10,23 @@ import AdminHome from "./admin/Admin_Home";
 import Login from "./admin/Login";
 import Blogs from "./pages/Blogs";
 import SingleBlog from "./pages/SingleBlog";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer"
+import RouteLayout from "./components/RouteLayout"
 
 
 // Using router and switch to route the pages from one to another
 function App() {
     return (
         <Router>
-            <Navbar />
             <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/contact" component={Contact} />
-                <Route path="/services" component={Services} />
-                <Route path="/about" component={About} />
-                <Route path="/admin" component={Login} />
-                <Route path="/admin-home" component={AdminHome} />
-                <Route path="/blogs" component={Blogs} />
-                <Route path="/singleblog" component={SingleBlog} />
+                <RouteLayout exact path="/" component={Home} layout="Nav" />
+                <RouteLayout path="/contact" component={Contact} layout="Nav"  />
+                <RouteLayout path="/services" component={Services} layout="Nav"  />
+                <RouteLayout path="/about" component={About} layout="Nav"  />
+                <RouteLayout path="/admin" component={Login} layout=""  />
+                <RouteLayout path="/admin-home" component={AdminHome} layout=""  />
+                <RouteLayout path="/blogs" component={Blogs} layout="Nav"  />
+                <RouteLayout path="/singleblog" component={SingleBlog} layout="Nav"  />
             </Switch>
-            <Footer />
         </Router>
     );
 }

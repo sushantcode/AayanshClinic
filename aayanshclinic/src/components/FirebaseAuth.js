@@ -1,7 +1,8 @@
-import app from 'firebase/app';
+import firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/auth"
 
-app.initializeApp({
+const app = firebase.initializeApp({
     apiKey: "AIzaSyBhVndpU95bMbKlKeu4y81GwiEtCRYpFaQ",
     authDomain: "aayansh-clinic.firebaseapp.com",
     databaseURL: "https://aayansh-clinic.firebaseio.com",
@@ -14,4 +15,5 @@ app.initializeApp({
 
 export const db = app.firestore();
 //export const storage = app.storage();
+export const firebaseAuth = app.auth();
 export default app;
