@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     paper: {
-        padding: theme.spacing(5),
+        padding: theme.spacing(7),
         textAlign: 'center',
         color: theme.palette.text.secondary
     }
@@ -35,10 +35,14 @@ const useStyles = makeStyles(theme => ({
 
 const Login = ({ history }) => {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
+    const [openAlertError, setOpenAlertError] = useState(false);
+    const [openAlertSuccess, setOpenAlertSuccess] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
     const [emailErr, setEmailErr] = useState("");
     const [passwordErr, setPasswordErr] = useState("");
-    const [loginErr, setLoginErr] = useState("");
+    const [authErr, setAuthErr] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
+    const [resetEmail, setResetEmail] = useState("");
 
     const onSubmitHandler = useCallback(async event => {
         event.preventDefault();
@@ -65,14 +69,50 @@ const Login = ({ history }) => {
                     history.push("/admin-home");
                 })
                 .catch((err) => {
-                    setLoginErr(err.message);
-                    setOpen(true);
+                    setAuthErr(err.message);
+                    setOpenAlertError(true);
                 });
         }
-    }, [emailErr, passwordErr, history]);
+    }, [history]);
 
-    const handleClose = () => {
-        setOpen(false);
+    const onResetSubmitHandler = useCallback(async event => {
+            event.preventDefault();
+            try {
+                // sending reset email to the email provided
+                await firebaseAuth
+                .sendPasswordResetEmail(resetEmail)
+                .then(() => {
+                    setOpenDialog(false);
+                    setResetEmail("");
+                    setSuccessMsg("Password reset link has been sent to your email. Please check your email and follow instructions.");
+                    setOpenAlertSuccess(true);
+                })
+                .catch((err) => {
+                    setAuthErr(resetEmail);
+                    setOpenAlertError(true);
+                })
+            } catch (err) {
+                setAuthErr(err.message);
+                setOpenAlertError(true);
+            }
+
+            
+    }, [resetEmail]);
+
+    const handleCloseAlertError = () => {
+        setOpenAlertError(false);
+    };
+
+    const handleCloseAlertSuccess = () => {
+        setOpenAlertSuccess(false);
+    };
+
+    const handleClickOpendialog = () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
     };
 
     return (
@@ -150,23 +190,66 @@ const Login = ({ history }) => {
                                     <Button
                                         variant="outlined"
                                         color="primary"
-                                        onClick={() => { alert('clicked') }}
+                                        onClick={handleClickOpendialog}
                                     >
                                         <b>Forgot Password? Reset your password here!!!</b>
                                     </Button>
                                 </div>
                                 <Snackbar
-                                    open={open}
+                                    open={openAlertSuccess}
                                     autoHideDuration={6000}
-                                    onClose={handleClose}
+                                    onClose={handleCloseAlertSuccess}
                                 >
-                                    <Alert onClose={handleClose} severity="error">
+                                    <Alert onClose={handleCloseAlertSuccess} severity="success">
                                         <h4 style={{ color: "red", marginTop: 10}} >
-                                            {" "}{loginErr}
+                                            {" "}{successMsg}
+                                        </h4>
+                                    </Alert>
+                                </Snackbar>
+                                <Snackbar
+                                    open={openAlertError}
+                                    autoHideDuration={6000}
+                                    onClose={handleCloseAlertError}
+                                >
+                                    <Alert onClose={handleCloseAlertError} severity="error">
+                                        <h4 style={{ color: "red", marginTop: 10}} >
+                                            {" "}{authErr}
                                         </h4>
                                     </Alert>
                                 </Snackbar>
                             </form>
+                            <Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
+                                <form
+                                    noValidate
+                                    autoComplete="off"
+                                    onSubmit={onResetSubmitHandler}
+                                >
+                                    <DialogTitle id="form-dialog-title">Reset Password</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText>
+                                            Please enter your valid email address and click SEND RESET LINK button.
+                                        </DialogContentText>
+                                        <TextField
+                                            autoFocus
+                                            margin="dense"
+                                            id="resetEmail1"
+                                            label="Email Address"
+                                            type="email"
+                                            value={resetEmail}
+                                            onChange={(e) => setResetEmail(e.target.value)}
+                                            fullWidth
+                                        />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={handleCloseDialog} color="primary">
+                                            Cancel
+                                        </Button>
+                                        <Button color="primary" type="submit">
+                                            SEND RESET LINK
+                                        </Button>
+                                    </DialogActions>
+                                </form>
+                            </Dialog>
                         </Paper>
                     </Grid>
                 </Grid>

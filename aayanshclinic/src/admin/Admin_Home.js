@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Button from "@material-ui/core/Button";
 import { firebaseAuth } from "../components/FirebaseAuth";
 import "./Admin.css";
 
 const AdminHome = ({ history }) => {
-    const onClickHandler = () => {
+    const onClickHandler = useCallback(async event => {
+        event.preventDefault();
         firebaseAuth
         .signOut()
         .then(() => {
@@ -13,7 +14,7 @@ const AdminHome = ({ history }) => {
         .catch(err => {
             alert(err);
         });
-    };
+    }, [history]);
 
     return (
     <div className="container-home">
