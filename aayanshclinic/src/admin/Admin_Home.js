@@ -16,6 +16,8 @@ const AdminHome = ({ history }) => {
         });
     }, [history]);
 
+
+
     return (
     <div className="container-home">
         <p>Admin Home Page.....</p>
@@ -28,6 +30,7 @@ const AdminHome = ({ history }) => {
         >
             <b>LOG-OUT</b>
         </Button>
+        
     </div>
     );
 };
