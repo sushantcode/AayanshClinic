@@ -205,7 +205,7 @@ const Contact = props => {
                         appointment.
                     </h4>
                     <h1 style={{ marginBottom: 10, fontWeight: "normal" }}>
-                        Aaayansh Clinic
+                        Aayansh Clinic
                     </h1>
                     <h4 style={{ marginBottom: 20, fontWeight: "normal" }}>
                         Kalaiya-03, Bara, Nepal
@@ -236,7 +236,7 @@ const Contact = props => {
                     xs={12}
                     className={classes.section2}
                     align="center"
-                    style={{ position: "relative", height: "50vh" }}
+                    style={{ position: "relative", height: "60vh" }}
                 >
                     <Map
                         google={props.google}
@@ -249,7 +249,7 @@ const Contact = props => {
                     >
                         <Marker
                             onClick={onMarkerClick}
-                            name={"Kenyatta International Convention Centre"}
+                            name={"Aayansh Clinic"}
                         />
                         <InfoWindow
                             marker={activeMarker}
@@ -270,5 +270,5 @@ const Contact = props => {
 };
 
 export default GoogleApiWrapper({
-    apiKey: "MAP_API_REMOVED_FOR_SECURITY_REASON"
+    apiKey: "AIzaSyBoXHbYKSDMHUgZaqmhFIbIGGor-UK7D30"
 })(Contact);

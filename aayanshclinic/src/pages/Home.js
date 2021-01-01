@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import Link from "react-router-dom/Link";
 
 const useStyles = theme => ({
     section1: {
@@ -67,11 +68,12 @@ class Home extends Component {
                 let blog = [];
                 data.forEach(doc => {
                     blog.push({
+                        blogId: doc.id,
                         title: doc.data().title,
                         author: doc.data().author,
                         createdAt: doc.data().createdAt,
                         img: doc.data().img,
-                        body: doc.data().body.substring(0, 100)
+                        body: doc.data().body.substring(0, 200) + "..."
                     });
                 });
                 this.setState({
@@ -139,12 +141,12 @@ class Home extends Component {
             blogComponent = this.state.blogs.map(eachItem => {
                 if (eachItem.img !== "") {
                     return (
-                        <Card>
+                        <Card style={{height: "500px"}}>
                             <CardActionArea>
                                 <CardMedia
                                     component="img"
                                     alt="Slide Image"
-                                    height="140"
+                                    height="300"
                                     image={eachItem.img}
                                     title="Slide Image"
                                 />
@@ -169,7 +171,13 @@ class Home extends Component {
                                 <Button size="small" color="primary">
                                     Share
                                 </Button>
-                                <Button size="small" color="primary">
+                                <Button size="small" color="primary" component={Link}
+                                    to={{
+                                        pathname: "/singleBlog",
+                                        state: {
+                                            blogDocId: eachItem.blogId
+                                        }
+                                    }}>
                                     Learn More
                                 </Button>
                             </CardActions>
@@ -177,7 +185,7 @@ class Home extends Component {
                     );
                 } else {
                     return (
-                        <Card>
+                        <Card style={{height: "500px"}}>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography
@@ -200,7 +208,13 @@ class Home extends Component {
                                 <Button size="small" color="primary">
                                     Share
                                 </Button>
-                                <Button size="small" color="primary">
+                                <Button size="small" color="primary" component={Link}
+                                    to={{
+                                        pathname: "/singleBlog",
+                                        state: {
+                                            blogDocId: eachItem.blogId
+                                        }
+                                    }}>
                                     Learn More
                                 </Button>
                             </CardActions>
