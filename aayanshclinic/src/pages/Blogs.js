@@ -39,7 +39,7 @@ class Blogs extends Component {
                     blogId: doc.id,
                     title: doc.data().title,
                     author: doc.data().author,
-                    createdAt: doc.data().createdAt,
+                    createdAt: doc.data().createdAt.toDate().toDateString(),
                     img: doc.data().img,
                     body: doc.data().body.substring(0, 400) + "..."
                 });
@@ -77,7 +77,7 @@ class Blogs extends Component {
                                 <Typography
                                     variant="body2"
                                     color="textSecondary">
-                                    <b>{" "}{eachItem.createdAt.toDate().toDateString()}{","}</b>
+                                    <b>{" "}{eachItem.createdAt}{","}</b>
                                 </Typography>
                                 <br />
                                 <Typography
@@ -92,10 +92,7 @@ class Blogs extends Component {
                         <CardActions>
                             <Button size="small" color="primary" component={Link}
                                     to={{
-                                        pathname: "/singleBlog",
-                                        state: {
-                                            blogDocId: eachItem.blogId
-                                        }
+                                        pathname: `/singleBlog/${eachItem.blogId}`
                                     }}>
                                 Learn More
                             </Button>
@@ -113,7 +110,7 @@ class Blogs extends Component {
                                 <Typography
                                     variant="body2"
                                     color="textSecondary">
-                                    <b>{" "}{eachItem.createdAt.toDate().toDateString()}{","}</b>
+                                    <b>{" "}{eachItem.createdAt}{","}</b>
                                 </Typography>
                                 <br />
                                 <Typography
@@ -128,10 +125,7 @@ class Blogs extends Component {
                         <CardActions>
                             <Button size="small" color="primary" component={Link}
                                     to={{
-                                        pathname: "/singleBlog",
-                                        state: {
-                                            blogDocId: eachItem.blogId
-                                        }
+                                        pathname: `/singleBlog/${eachItem.blogId}`
                                     }}>
                                 Learn More
                             </Button>

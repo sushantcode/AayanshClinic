@@ -25,7 +25,7 @@ function App() {
                 <RouteLayout path="/admin" component={Login} layout=""  />
                 <RouteLayout path="/admin-home" component={AdminHome} layout=""  />
                 <RouteLayout path="/blogs" component={Blogs} layout="Nav"  />
-                <RouteLayout path="/singleblog" component={SingleBlog} layout="Nav"  />
+                <RouteLayout path="/singleblog/:blogDocId" component={SingleBlog} layout="Nav"  />
             </Switch>
         </Router>
     );
