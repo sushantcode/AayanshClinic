@@ -1,4 +1,4 @@
-.admin-navbar {
+.login-header {
     background: linear-gradient(
         90deg,
         rgba(123, 204, 241, 0.897) 0%,
@@ -14,7 +14,7 @@
     z-index: 999;
 }
 
-.container-admin-login
+.container-admin-login,
 .container-admin-home {
     margin-top: 20px;
     min-height: 100vh;

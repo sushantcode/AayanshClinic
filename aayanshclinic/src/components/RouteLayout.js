@@ -1,11 +1,12 @@
 import Navbar from "./Navbar";
-import { Route, /*Redirect*/} from "react-router-dom";
+import AdminNavbar from "../admin/AdminNavbar"
+import { Route } from "react-router-dom";
 import Footer from "./Footer";
 
 // wrapper component
-const RouteLayout = props => {
-    const { component: RoutedComponent, layout, path, ...rest } = props;
-  
+const RouteLayout = (props)=> {
+    const { component: RoutedComponent, path, layout, ...rest } = props;
+
     // render actual Route from react-router
     const renderingComponent = (
       <Route
@@ -18,7 +19,7 @@ const RouteLayout = props => {
   
     // depends on the layout, you can wrap Route component in different layouts
     switch (layout) {
-      case 'Nav': {
+      case "Nav": {
         return (
           <>
               <Navbar />
@@ -27,25 +28,24 @@ const RouteLayout = props => {
           </>
         )
       }
-      case '': {
-        // if (path === "/admin") {
-            // return (
-            //     <>
-            //         <Redirect to={{
-            //             pathname: "/admin-home",
-            //             state: { from: props.path }
-            //         }}/>
-            //     </>
-            // )
-        // }
-        // else {
+      case "": {
+        if (path === "/admin") {
             return (
                 <>
                     {renderingComponent}
                     <Footer />
                 </>
             )
-        // }
+        }
+        else {
+            return (
+                <>
+                    <AdminNavbar />
+                    {renderingComponent}
+                    <Footer />
+                </>
+            )
+        }
       }
       default: {
         return (

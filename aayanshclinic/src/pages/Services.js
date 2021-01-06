@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     section2: {
         height: 300,
         marginBottom: 30,
-        backgroundImage: `url(${"https://thumbs.dreamstime.com/b/medicine-doctor-touching-electronic-medical-record-tablet-dna-digital-healthcare-network-connection-hologram-modern-virtual-154742526.jpg"})`
+        backgroundImage: `url(${"https://firebasestorage.googleapis.com/v0/b/aayansh-clinic.appspot.com/o/images%2Fhologram-image-doctor.jpg?alt=media&token=61f6f85f-5abe-4371-8ce7-275fa58ebe1c"})`
     }
 }));
 
@@ -64,7 +64,7 @@ const Services = () => {
                     <p>This service is coming soon...</p>
                     <br />
                     <img
-                        src="https://www.publicdomainpictures.net/pictures/50000/nahled/ekg-electrocardiogram.jpg"
+                        src="https://firebasestorage.googleapis.com/v0/b/aayansh-clinic.appspot.com/o/images%2Fecg-image.jpg?alt=media&token=92cfe21b-7763-46a7-83c4-50b09475a8ea"
                         alt="ECG"
                         className="ecg-image"
                     />

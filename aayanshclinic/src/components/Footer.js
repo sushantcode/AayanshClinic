@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
 const Footer = () => {
@@ -9,7 +10,12 @@ const Footer = () => {
                     <div className="row2">
                         <p className="Terms">
                             Copyright &copy;{new Date().getFullYear} 2020 Aayansh Clinic | All Rights
-                            Reserved{" "}
+                            Reserved{" "} | {" "}
+                            <Link
+                                to="/admin"
+                                className="adminLink">
+                                ADMIN-LOGIN
+                            </Link>
                         </p>
                         <p className="SocialLogo">
                             <a

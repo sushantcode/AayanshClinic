@@ -12,6 +12,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { firebaseAuth } from "../components/FirebaseAuth";
+import { useHistory } from "react-router-dom";
 import "./Admin.css";
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +34,12 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Login = ({ history }) => {
+const Login = () => {
+    let history = useHistory();
+    if (firebaseAuth.currentUser) {
+        history.push("/admin-home");
+    }
+
     const classes = useStyles();
     const [openAlertError, setOpenAlertError] = useState(false);
     const [openAlertSuccess, setOpenAlertSuccess] = useState(false);
@@ -117,7 +123,7 @@ const Login = ({ history }) => {
 
     return (
         <>
-            <nav className="admin-navbar">
+            <nav className="login-header">
                 <img
                     src="https://firebasestorage.googleapis.com/v0/b/aayansh-clinic.appspot.com/o/images%2Flogo.jpg?alt=media&token=f36e2f57-1883-43a2-88c6-9e60ed7a4749"
                     alt="LOGO"
