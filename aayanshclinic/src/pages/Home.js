@@ -73,7 +73,7 @@ class Home extends Component {
                         author: doc.data().author,
                         createdAt: doc.data().createdAt,
                         img: doc.data().img,
-                        body: doc.data().body.substring(0, 200) + "..."
+                        body: doc.data().body.substring(0, 150) + "..."
                     });
                 });
                 this.setState({
@@ -141,12 +141,12 @@ class Home extends Component {
             blogComponent = this.state.blogs.map(eachItem => {
                 if (eachItem.img !== "") {
                     return (
-                        <Card style={{height: "500px"}}>
+                        <Card style={{height: "45vh"}}>
                             <CardActionArea>
                                 <CardMedia
                                     component="img"
                                     alt="Slide Image"
-                                    height="300"
+                                    height="110vh"
                                     image={eachItem.img}
                                     title="Slide Image"
                                 />
@@ -154,7 +154,7 @@ class Home extends Component {
                                     <Typography
                                         gutterBottom
                                         variant="h5"
-                                        component="h2"
+                                        component="h3"
                                     >
                                         {eachItem.title}
                                     </Typography>
@@ -168,9 +168,6 @@ class Home extends Component {
                                 </CardContent>
                             </CardActionArea>
                             <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
                                 <Button size="small" color="primary" component={Link}
                                     to={{
                                         pathname: "/singleBlog",
@@ -185,7 +182,7 @@ class Home extends Component {
                     );
                 } else {
                     return (
-                        <Card style={{height: "500px"}}>
+                        <Card style={{height: "50vh"}}>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography
