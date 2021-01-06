@@ -38,6 +38,7 @@ const AdminHome = ({ history }) => {
     const [openAlertError, setOpenAlertError] = useState(false);
     const [openAlertSuccess, setOpenAlertSuccess] = useState(false);
     const [successMsg, setSuccessMsg] = useState("");
+    const [keyword, setKeyword] = useState("");
 
     db
         .collection("SlideShowImages")
@@ -77,12 +78,34 @@ const AdminHome = ({ history }) => {
 
     const onImgDeleteHandler = (imgId, imgSrc) => {
         db.doc(`SlideShowImages/${imgId}`).delete().then(() => {
-            storage.refFromURL(imgSrc).delete().then(() => {
-                setError("");
-                setSuccessMsg("Image Removed Successfully!!!");
-                setOpenAlertSuccess(true);
-            });
+            storage
+                .refFromURL(imgSrc)
+                .delete()
+                .then(() => {
+                    setError("");
+                    setSuccessMsg("Image Removed Successfully!!!");
+                    setOpenAlertSuccess(true);
+                })
+                .catch(err => {
+                    setError(err.message);
+                    setOpenAlertError(true);
+                });
         });
+    };
+
+    const onSubListDeleteHandler = listId => {
+        db
+            .doc(`Subscribers/${listId}`)
+            .delete()
+            .then(() => {
+                setError("");
+                setSuccessMsg("Email Is Removed Successfully!!!");
+                setOpenAlertSuccess(true);
+            })
+            .catch(err => {
+                setError(err.message);
+                setOpenAlertError(true);
+            });
     };
 
     const fileHandler = data => {
@@ -180,20 +203,24 @@ const AdminHome = ({ history }) => {
           </Typography>;
 
     let subsciberItem = subscibers
-        ? subscibers.map(item =>
-            <List>
-                <ListItem>
-                    {item.email+" "}
-                    <Button
-                        size="small"
-                        color="secondary"
-                        
-                    >
-                        <i class="fas fa-trash-alt"></i>
-                    </Button>
-                </ListItem>
-            </List>
-          )
+        ? subscibers
+              .filter(
+                  item => (keyword === "" && true) || item.email.substring(0, keyword.length) === keyword
+              )
+              .map(item =>
+                  <List>
+                      <ListItem>
+                          {item.email + " "}
+                          <Button
+                              size="small"
+                              color="secondary"
+                              onClick={() => onSubListDeleteHandler(item.subId)}
+                          >
+                              <i class="fas fa-trash-alt" />
+                          </Button>
+                      </ListItem>
+                  </List>
+              )
         : <Typography variant="h3" align="center">
               No Subscribers Found
           </Typography>;
@@ -254,12 +281,20 @@ const AdminHome = ({ history }) => {
                     <hr />
                     <br />
                     <h1>Subscibers' List</h1>
-                    <Grid item xs={10} className={classes.section1} justify="center">
+                    <Grid
+                        item
+                        xs={10}
+                        className={classes.section1}
+                        justify="center"
+                    >
                         <br />
                         <TextField
                             id="keyword"
                             label="start typing to search..."
                             variant="outlined"
+                            onChange={e => {
+                                setKeyword(e.target.value);
+                            }}
                         />
                         {subsciberItem}
                     </Grid>
