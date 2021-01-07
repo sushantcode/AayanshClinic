@@ -2,17 +2,11 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import { firebaseAuth, db } from "../components/FirebaseAuth";
 import ListItem from "@material-ui/core/ListItem";
-import DeleteIcon from "@material-ui/icons/Delete";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
 import "./Admin.css";
@@ -23,50 +17,67 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Appointment = ({ history }) => {
+const EditAbout = ({ history }) => {
     if (!firebaseAuth.currentUser) {
         history.push("/admin");
     }
 
     const classes = useStyles();
-    const [appointemnt, setAppointment] = useState(null);
+    const [team, setTeam] = useState([]);
     const [error, setError] = useState("");
     const [openAlertError, setOpenAlertError] = useState(false);
     const [openAlertSuccess, setOpenAlertSuccess] = useState(false);
     const [successMsg, setSuccessMsg] = useState("");
     const [keyword, setKeyword] = useState("");
+    const [newTeam, setNewTeam] = useState("");
 
     db
-        .collection("Appointments")
+        .collection("Teams")
         .get()
         .then(data => {
-            let appoint = [];
+            let teams = [];
             data.forEach(doc => {
-                appoint.push({
-                    appointId: doc.id,
-                    name: doc.data().name,
-                    date: doc.data().date,
-                    time: doc.data().time,
-                    email: doc.data().email,
-                    phone: doc.data().phone,
-                    others: doc.data().others
+                teams.push({
+                    teamDocId: doc.id,
+                    teamName: doc.data().teamName
                 });
             });
-            setAppointment(appoint);
+            setTeam(teams);
         })
         .catch(err => {
             setError(err.message);
             setOpenAlertError(true);
         });
 
-    const onAppointRequestDeleteHandler = appointId => {
+    const onAddClickHandler = event => {
+        event.preventDefault();
+        if (newTeam !== "") {
+            const newTeamDoc = {
+                teamName: newTeam
+            };
+            db.collection("Teams").add(newTeamDoc).then(() => {
+                setError("");
+                setSuccessMsg(
+                    "Team Member Added Successfully!!!"
+                );
+                setNewTeam("");
+                setOpenAlertSuccess(true);
+            });
+        }
+        else {
+            setError("Must Have a Team Member Name and Title.");
+            setOpenAlertError(true);
+        }
+    };
+
+    const onTeamListDeleteHandler = teamDocId => {
         db
-            .doc(`Appointments/${appointId}`)
+            .doc(`Teams/${teamDocId}`)
             .delete()
             .then(() => {
                 setError("");
                 setSuccessMsg(
-                    "Appointment Request has been removed successfully!!!"
+                    "Team member has been removed successfully!!!"
                 );
                 setOpenAlertSuccess(true);
             })
@@ -84,62 +95,36 @@ const Appointment = ({ history }) => {
         setOpenAlertSuccess(false);
     };
 
-    let appointmentItem = appointemnt
-        ? appointemnt
+    let teamItem = team
+        ? team
               .filter(
                   item =>
                       (keyword === "" && true) ||
-                      item.email.substring(0, keyword.length) === keyword
+                      item.teamName.substring(0, keyword.length) === keyword
               )
               .map(item =>
-                  <Card>
-                      <CardActionArea>
-                          <CardContent>
-                              <List>
-                                  <ListItem>
-                                      <ListItemText
-                                          primary={`Full Name: ${item.name}`}
-                                      />
-                                      <ListItemText
-                                          primary={`Date: ${item.date}`}
-                                      />
-                                      <ListItemText
-                                          primary={`Time: ${item.time}`}
-                                      />
-                                      <ListItemText
-                                          primary={`Email: ${item.email}`}
-                                      />
-                                      <ListItemText
-                                          primary={`Phone: ${item.phone}`}
-                                      />
-                                      <ListItemText
-                                          primary={`Others: ${item.others}`}
-                                      />
-                                  </ListItem>
-                              </List>
-                          </CardContent>
-                      </CardActionArea>
-                      <CardActions>
-                          <Button
-                              size="small"
-                              color="secondary"
-                              onClick={() =>
-                                  onAppointRequestDeleteHandler(item.appointId)}
-                          >
-                              <DeleteIcon /> DELETE
-                          </Button>
-                      </CardActions>
-                  </Card>
+                <List>
+                    <ListItem>
+                        {item.teamName + " "}
+                        <Button
+                            size="small"
+                            color="secondary"
+                            onClick={() => onTeamListDeleteHandler(item.teamDocId)}
+                        >
+                            <i class="fas fa-trash-alt" />
+                        </Button>
+                    </ListItem>
+                </List>
               )
         : <Typography variant="h4" align="center">
-              No Appointment Request Found
+              No Team Member is Found
           </Typography>;
 
     return (
         <div className="container-admin-home">
             <Grid container spacing={0} justify="center">
                 <Grid item xs={10} className={classes.section1}>
-                    <h1>Appointment Requests</h1>
+                    <h1>Tean Members</h1>
                     <br />
                     <hr />
                     <Grid
@@ -157,7 +142,35 @@ const Appointment = ({ history }) => {
                                 setKeyword(e.target.value);
                             }}
                         />
-                        {appointmentItem}
+                        {teamItem}
+                    </Grid>
+                    <Grid
+                        item
+                        xs={10}
+                        className={classes.section1}
+                        justify="center"
+                    >
+                        <br />
+                        <TextField
+                            id="new-team"
+                            label="Enter Name and Title..."
+                            variant="outlined"
+                            value={newTeam}
+                            fullWidth
+                            onChange={e => {
+                                setNewTeam(e.target.value);
+                            }}
+                        />
+                        <br />
+                        <br />
+                        <Button
+                            size="medium"
+                            variant="contained"
+                            color="primary"
+                            onClick={onAddClickHandler}
+                        >
+                            ADD MEMBER
+                        </Button>
                     </Grid>
                     <Snackbar
                         open={openAlertSuccess}
@@ -190,4 +203,4 @@ const Appointment = ({ history }) => {
     );
 };
 
-export default Appointment;
+export default EditAbout;

@@ -146,6 +146,7 @@ const AdminHome = ({ history }) => {
                                         "Image Added Successfully!!!"
                                     );
                                     setOpenAlertSuccess(true);
+                                    setImgFile(null);
                                 })
                                 .catch(err => {
                                     setError(err.message);
@@ -198,9 +199,11 @@ const AdminHome = ({ history }) => {
                   </Card>
               </Grid>
           )
-        : <Typography variant="h3" align="center">
-              No Image Found
-          </Typography>;
+        :   <Grid item xs={10} sm={5}>
+                <Typography variant="h3" align="center">
+                    No Image Found
+                </Typography>
+            </Grid>;
 
     let subsciberItem = subscibers
         ? subscibers
@@ -221,9 +224,9 @@ const AdminHome = ({ history }) => {
                       </ListItem>
                   </List>
               )
-        : <Typography variant="h3" align="center">
-              No Subscribers Found
-          </Typography>;
+        :   <Typography variant="h4" align="center">
+                No Subscribers Found
+            </Typography>;
 
     return (
         <div className="container-admin-home">

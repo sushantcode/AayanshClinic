@@ -7,10 +7,12 @@ import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import About from "./pages/About";
 import AdminHome from "./admin/Admin_Home";
+import Appointment from "./admin/Appointment";
 import Login from "./admin/Login";
 import Blogs from "./pages/Blogs";
 import SingleBlog from "./pages/SingleBlog";
 import RouteLayout from "./components/RouteLayout"
+import EditAbout from "./admin/Edit_About"
 
 
 // Using router and switch to route the pages from one to another
@@ -24,6 +26,8 @@ function App() {
                 <RouteLayout path="/about" component={About} layout="Nav"  />
                 <RouteLayout path="/admin" component={Login} layout=""  />
                 <RouteLayout path="/admin-home" component={AdminHome} layout=""  />
+                <RouteLayout path="/appointment" component={Appointment} layout=""  />
+                <RouteLayout path="/editabout" component={EditAbout} layout=""  />
                 <RouteLayout path="/blogs" component={Blogs} layout="Nav"  />
                 <RouteLayout path="/singleblog/:blogDocId" component={SingleBlog} layout="Nav"  />
             </Switch>
