@@ -1,4 +1,4 @@
-# AayanshClinic
+# AayanshClinic.Com
 A website for a local medical clinic and pharmacy in Nepal using JS. (ReactJs Library), CSS, and HTML.
 
 ### Live Website
