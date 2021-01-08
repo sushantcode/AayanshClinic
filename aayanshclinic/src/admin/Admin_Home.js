@@ -125,6 +125,7 @@ const AdminHome = ({ history }) => {
                 snapshot => {},
                 error => {
                     setError(error.message);
+                    setOpenAlertError(true);
                 },
                 () => {
                     // geting url of the image

@@ -88,11 +88,11 @@ function AdminNavbar() {
                 </li>
                 <li className="nav-item">
                     <Link
-                        to="/blogs"
+                        to="/editblogs"
                         className="nav-links"
                         onClick={closeMobileViewMenu}
                     >
-                        BLOGS
+                        EDIT BLOGS
                     </Link>
                 </li>
                 <li className="nav-item">

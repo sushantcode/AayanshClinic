@@ -202,9 +202,6 @@ class Home extends Component {
                                 </CardContent>
                             </CardActionArea>
                             <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
                                 <Button size="small" color="primary" component={Link}
                                     to={{
                                         pathname: "/singleBlog",

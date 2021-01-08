@@ -23,13 +23,13 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Appointment = ({ history }) => {
+const EditContact = ({ history }) => {
     if (!firebaseAuth.currentUser) {
         history.push("/admin");
     }
 
     const classes = useStyles();
-    const [appointemnt, setAppointment] = useState(null);
+    const [msg, setMsg] = useState(null);
     const [error, setError] = useState("");
     const [openAlertError, setOpenAlertError] = useState(false);
     const [openAlertSuccess, setOpenAlertSuccess] = useState(false);
@@ -37,36 +37,35 @@ const Appointment = ({ history }) => {
     const [keyword, setKeyword] = useState("");
 
     db
-        .collection("Appointments")
+        .collection("Message")
         .get()
         .then(data => {
-            let appoint = [];
+            let message = [];
             data.forEach(doc => {
-                appoint.push({
-                    appointId: doc.id,
+                message.push({
+                    docId: doc.id,
                     name: doc.data().name,
-                    date: doc.data().date,
-                    time: doc.data().time,
+                    meetingTime: doc.data().meetingTime,
                     email: doc.data().email,
                     phone: doc.data().phone,
-                    others: doc.data().others
+                    message: doc.data().message
                 });
             });
-            setAppointment(appoint);
+            setMsg(message);
         })
         .catch(err => {
             setError(err.message);
             setOpenAlertError(true);
         });
 
-    const onAppointRequestDeleteHandler = appointId => {
+    const onMessageDeleteHandler = docId => {
         db
-            .doc(`Appointments/${appointId}`)
+            .doc(`Message/${docId}`)
             .delete()
             .then(() => {
                 setError("");
                 setSuccessMsg(
-                    "Appointment Request has been removed successfully!!!"
+                    "Message has been removed successfully!!!"
                 );
                 setOpenAlertSuccess(true);
             })
@@ -84,72 +83,69 @@ const Appointment = ({ history }) => {
         setOpenAlertSuccess(false);
     };
 
-    let appointmentItem = appointemnt
-        ? appointemnt
+    let messageItem = msg
+        ? msg
               .filter(
                   item =>
                       (keyword === "" && true) ||
                       item.email.substring(0, keyword.length) === keyword
               )
               .map(item =>
-                  <Card>
-                      <CardActionArea>
-                          <CardContent>
-                              <List>
-                                  <ListItem>
-                                      <ListItemText
-                                          primary={`Full Name: ${item.name}`}
-                                      />
-                                  </ListItem>
-                                  <ListItem>
-                                      <ListItemText
-                                          primary={`Date: ${item.date}`}
-                                      />
-                                  </ListItem>
-                                  <ListItem>
-                                      <ListItemText
-                                          primary={`Time: ${item.time}`}
-                                      />
-                                  </ListItem>
-                                  <ListItem>
-                                      <ListItemText
-                                          primary={`Email: ${item.email}`}
-                                      />
-                                  </ListItem>
-                                  <ListItem>
-                                      <ListItemText
-                                          primary={`Phone: ${item.phone}`}
-                                      />
-                                  </ListItem>
-                                  <ListItem>
-                                      <ListItemText
-                                          primary={`Others: ${item.others}`}
-                                      />
-                                  </ListItem>
-                              </List>
-                          </CardContent>
-                      </CardActionArea>
-                      <CardActions>
-                          <Button
-                              size="small"
-                              color="secondary"
-                              onClick={() =>
-                                  onAppointRequestDeleteHandler(item.appointId)}
-                          >
-                              <DeleteIcon /> DELETE
-                          </Button>
-                      </CardActions>
-                  </Card>
+                  <div style={{ padding: 20 }}>
+                      <Card>
+                          <CardActionArea>
+                              <CardContent>
+                                  <List>
+                                      <ListItem>
+                                          <ListItemText
+                                              primary={`Full Name: ${item.name}`}
+                                          />
+                                      </ListItem>
+                                      <ListItem>
+                                          <ListItemText
+                                              primary={`Meeting Time: ${item.meetingTime}`}
+                                          />
+                                      </ListItem>
+                                      <ListItem>
+                                          <ListItemText
+                                              primary={`Email: ${item.email}`}
+                                          />
+                                      </ListItem>
+                                      <ListItem>
+                                          <ListItemText
+                                              primary={`Phone: ${item.phone}`}
+                                          />
+                                      </ListItem>
+                                      <ListItem>
+                                          <ListItemText
+                                              primary={`Message: ${item.message}`}
+                                          />
+                                      </ListItem>
+                                  </List>
+                              </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                              <Button
+                                  size="small"
+                                  color="secondary"
+                                  onClick={() =>
+                                      onMessageDeleteHandler(item.docId)}
+                              >
+                                  <DeleteIcon /> DELETE
+                              </Button>
+                          </CardActions>
+                      </Card>
+                  </div>
               )
         : <Typography variant="h4" align="center">
-              No Appointment Request Found
+              No Message Found
           </Typography>;
 
     return (
         <div className="container-admin-home">
             <Grid container spacing={0} justify="center">
                 <Grid item xs={10} className={classes.section1}>
-                    <h1>Appointment Requests</h1>
+                    <h1>Message</h1>
                     <br />
                     <hr />
                     <Grid
@@ -167,7 +163,7 @@ const Appointment = ({ history }) => {
                                 setKeyword(e.target.value);
                             }}
                         />
-                        {appointmentItem}
+                        {messageItem}
                     </Grid>
                     <Snackbar
                         open={openAlertSuccess}
@@ -200,4 +196,4 @@ const Appointment = ({ history }) => {
     );
 };
 
-export default Appointment;
+export default EditContact;
