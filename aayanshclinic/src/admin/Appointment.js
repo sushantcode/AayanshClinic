@@ -65,7 +65,9 @@ const Appointment = ({ history }) => {
             .delete()
             .then(() => {
                 setError("");
-                setSuccessMsg("Appointment Request has been removed successfully!!!");
+                setSuccessMsg(
+                    "Appointment Request has been removed successfully!!!"
+                );
                 setOpenAlertSuccess(true);
             })
             .catch(err => {
@@ -83,38 +85,53 @@ const Appointment = ({ history }) => {
     };
 
     let appointmentItem = appointemnt
-        ? (appointemnt
+        ? appointemnt
               .filter(
-                  item => (keyword === "" && true) || item.email.substring(0, keyword.length) === keyword
+                  item =>
+                      (keyword === "" && true) ||
+                      item.email.substring(0, keyword.length) === keyword
               )
               .map(item =>
-                <Card>
-                    <CardActionArea>
-                        <CardContent>
-                            <List>
-                                <ListItem>
-                                    <ListItemText primary={`Full Name: ${item.name}`} />
-                                    <ListItemText primary={`Date: ${item.date}`} />
-                                    <ListItemText primary={`Time: ${item.time}`} />
-                                    <ListItemText primary={`Email: ${item.email}`} />
-                                    <ListItemText primary={`Phone: ${item.phone}`} />
-                                    <ListItemText primary={`Others: ${item.others}`} />
-                                </ListItem>
-                            </List>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                        <Button
-                            size="small"
-                            color="secondary"
-                            onClick={() => onAppointRequestDeleteHandler(item.appointId)}
-                        >
-                            <DeleteIcon /> DELETE
-                        </Button>
-                    </CardActions>
-                </Card>)
+                  <Card>
+                      <CardActionArea>
+                          <CardContent>
+                              <List>
+                                  <ListItem>
+                                      <ListItemText
+                                          primary={`Full Name: ${item.name}`}
+                                      />
+                                      <ListItemText
+                                          primary={`Date: ${item.date}`}
+                                      />
+                                      <ListItemText
+                                          primary={`Time: ${item.time}`}
+                                      />
+                                      <ListItemText
+                                          primary={`Email: ${item.email}`}
+                                      />
+                                      <ListItemText
+                                          primary={`Phone: ${item.phone}`}
+                                      />
+                                      <ListItemText
+                                          primary={`Others: ${item.others}`}
+                                      />
+                                  </ListItem>
+                              </List>
+                          </CardContent>
+                      </CardActionArea>
+                      <CardActions>
+                          <Button
+                              size="small"
+                              color="secondary"
+                              onClick={() =>
+                                  onAppointRequestDeleteHandler(item.appointId)}
+                          >
+                              <DeleteIcon /> DELETE
+                          </Button>
+                      </CardActions>
+                  </Card>
               )
-        : <Typography variant="h3" align="center">
+        : <Typography variant="h4" align="center">
               No Appointment Request Found
           </Typography>;
 

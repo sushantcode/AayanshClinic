@@ -20,86 +20,88 @@ const useStyles = makeStyles(theme => ({
     section1: {
         marginBottom: 20
     },
-    blogCard: {
-        marginBottom: 20
+    section2: {
+        marginTop: 20
     }
 }));
 
-const AdminHome = ({ history }) => {
+const EditAbout = ({ history }) => {
     if (!firebaseAuth.currentUser) {
         history.push("/admin");
     }
 
     const classes = useStyles();
-    const [imgs, setImgs] = useState([]);
-    const [subscibers, setSubscribers] = useState([]);
+    const [team, setTeam] = useState([]);
+    const [certImg, setCertImg] = useState([]);
     const [imgFile, setImgFile] = useState(null);
     const [error, setError] = useState("");
     const [openAlertError, setOpenAlertError] = useState(false);
     const [openAlertSuccess, setOpenAlertSuccess] = useState(false);
     const [successMsg, setSuccessMsg] = useState("");
     const [keyword, setKeyword] = useState("");
+    const [newTeam, setNewTeam] = useState("");
 
     db
-        .collection("SlideShowImages")
+        .collection("Teams")
+        .get()
+        .then(data => {
+            let teams = [];
+            data.forEach(doc => {
+                teams.push({
+                    teamDocId: doc.id,
+                    teamName: doc.data().teamName
+                });
+            });
+            setTeam(teams);
+        })
+        .catch(err => {
+            setError(err.message);
+            setOpenAlertError(true);
+        });
+
+    db
+        .collection("Certificates")
         .get()
         .then(data => {
             let images = [];
             data.forEach(doc => {
                 images.push({
-                    imgId: doc.id,
+                    docId: doc.id,
                     src: doc.data().src
                 });
             });
-            setImgs(images);
+            setCertImg(images);
         })
         .catch(err => {
             setError(err.message);
             setOpenAlertError(true);
         });
 
-    db
-        .collection("Subscribers")
-        .get()
-        .then(data => {
-            let sub = [];
-            data.forEach(doc => {
-                sub.push({
-                    subId: doc.id,
-                    email: doc.data().email
-                });
+    const onAddClickHandler = event => {
+        event.preventDefault();
+        if (newTeam !== "") {
+            const newTeamDoc = {
+                teamName: newTeam
+            };
+            db.collection("Teams").add(newTeamDoc).then(() => {
+                setError("");
+                setSuccessMsg("Team Member Added Successfully!!!");
+                setNewTeam("");
+                setOpenAlertSuccess(true);
             });
-            setSubscribers(sub);
-        })
-        .catch(err => {
-            setError(err.message);
+        } else {
+            setError("Must Have a Team Member Name and Title.");
             setOpenAlertError(true);
-        });
-
-    const onImgDeleteHandler = (imgId, imgSrc) => {
-        db.doc(`SlideShowImages/${imgId}`).delete().then(() => {
-            storage
-                .refFromURL(imgSrc)
-                .delete()
-                .then(() => {
-                    setError("");
-                    setSuccessMsg("Image Removed Successfully!!!");
-                    setOpenAlertSuccess(true);
-                })
-                .catch(err => {
-                    setError(err.message);
-                    setOpenAlertError(true);
-                });
-        });
+        }
     };
 
-    const onSubListDeleteHandler = listId => {
+    const onTeamListDeleteHandler = teamDocId => {
         db
-            .doc(`Subscribers/${listId}`)
+            .doc(`Teams/${teamDocId}`)
             .delete()
             .then(() => {
                 setError("");
-                setSuccessMsg("Email Is Removed Successfully!!!");
+                setSuccessMsg("Team member has been removed successfully!!!");
                 setOpenAlertSuccess(true);
             })
             .catch(err => {
@@ -138,12 +140,12 @@ const AdminHome = ({ history }) => {
                             };
                             // Pushing the user information once user is signed up successfully to database
                             db
-                                .collection("SlideShowImages")
+                                .collection("Certificates")
                                 .add(newImage)
                                 .then(() => {
                                     setError("");
                                     setSuccessMsg(
-                                        "Image Added Successfully!!!"
+                                        "New Certificate is Added Successfully!!!"
                                     );
                                     setOpenAlertSuccess(true);
                                     setImgFile(null);
@@ -165,6 +167,23 @@ const AdminHome = ({ history }) => {
         }
     };
 
+    const onImgDeleteHandler = (docId, imgSrc) => {
+        db.doc(`Certificates/${docId}`).delete().then(() => {
+            storage
+                .refFromURL(imgSrc)
+                .delete()
+                .then(() => {
+                    setError("");
+                    setSuccessMsg("Image Removed Successfully!!!");
+                    setOpenAlertSuccess(true);
+                })
+                .catch(err => {
+                    setError(err.message);
+                    setOpenAlertError(true);
+                });
+        });
+    };
+
     const handleCloseAlertError = () => {
         setOpenAlertError(false);
     };
@@ -173,8 +192,34 @@ const AdminHome = ({ history }) => {
         setOpenAlertSuccess(false);
     };
 
-    let imageCard = imgs
-        ? imgs.map(img =>
+    let teamItem = team
+        ? team
+              .filter(
+                  item =>
+                      (keyword === "" && true) ||
+                      item.teamName.substring(0, keyword.length) === keyword
+              )
+              .map(item =>
+                  <List>
+                      <ListItem>
+                          {item.teamName + " "}
+                          <Button
+                              size="small"
+                              color="secondary"
+                              onClick={() =>
+                                  onTeamListDeleteHandler(item.teamDocId)}
+                          >
+                              <i class="fas fa-trash-alt" />
+                          </Button>
+                      </ListItem>
+                  </List>
+              )
+        : <Typography variant="h4" align="center">
+              No Team Member is Found
+          </Typography>;
+
+    let imageCard = certImg
+        ? certImg.map(img =>
               <Grid item xs={10} sm={5}>
                   <Card className={classes.blogCard}>
                       <CardActionArea>
@@ -191,7 +236,7 @@ const AdminHome = ({ history }) => {
                               size="small"
                               color="secondary"
                               onClick={() =>
-                                  onImgDeleteHandler(img.imgId, img.src)}
+                                  onImgDeleteHandler(img.docId, img.src)}
                           >
                               <DeleteIcon /> DELETE
                           </Button>
@@ -205,55 +250,88 @@ const AdminHome = ({ history }) => {
                 </Typography>
             </Grid>;
 
-    let subsciberItem = subscibers
-        ? subscibers
-              .filter(
-                  item => (keyword === "" && true) || item.email.substring(0, keyword.length) === keyword
-              )
-              .map(item =>
-                  <List>
-                      <ListItem>
-                          {item.email + " "}
-                          <Button
-                              size="small"
-                              color="secondary"
-                              onClick={() => onSubListDeleteHandler(item.subId)}
-                          >
-                              <i class="fas fa-trash-alt" />
-                          </Button>
-                      </ListItem>
-                  </List>
-              )
-        :   <Typography variant="h4" align="center">
-                No Subscribers Found
-            </Typography>;
-
     return (
         <div className="container-admin-home">
             <Grid container spacing={0} justify="center">
                 <Grid item xs={10} className={classes.section1}>
-                    <h2 style={{ marginBottom: 10 }}>
-                        <b>Slide Show Images</b>
-                    </h2>
+                    <h1>TEAM MEMBERS</h1>
+                    <br />
+                    <hr />
+                    <Grid container>
+                        <Grid
+                            item
+                            xs={10}
+                            className={classes.section1}
+                            justify="center"
+                        >
+                            <br />
+                            <TextField
+                                id="keyword"
+                                label="start typing to search..."
+                                variant="outlined"
+                                onChange={e => {
+                                    setKeyword(e.target.value);
+                                }}
+                            />
+                            {teamItem}
+                        </Grid>
+                        <Grid
+                            item
+                            xs={10}
+                            className={classes.section1}
+                            justify="center"
+                        >
+                            <Typography variant="h5">
+                                <b>Add New Member:</b>
+                            </Typography>
+                            <br />
+                            <TextField
+                                id="new-team"
+                                label="Name and Title"
+                                variant="outlined"
+                                value={newTeam}
+                                fullWidth
+                                onChange={e => {
+                                    setNewTeam(e.target.value);
+                                }}
+                            />
+                            <br />
+                            <br />
+                            <Button
+                                size="medium"
+                                variant="contained"
+                                color="primary"
+                                onClick={onAddClickHandler}
+                            >
+                                <b>ADD MEMBER</b>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                <Grid item xs={10} className={classes.section2}>
+                    <h1>CERTIFICATIONS AND AUTHORIZATIONS</h1>
+                    <br />
                     <Grid container spacing={2} justify="center">
                         {imageCard}
                     </Grid>
-                    <Button>
-                        <input
-                            type="file"
-                            onChange={fileHandler}
-                            accept="image/png, image/jpeg, image/jpg"
-                            style={{ fontSize: "1rem" }}
-                        />
-                    </Button>
-                    <Button
-                        size="medium"
-                        variant="contained"
-                        color="primary"
-                        onClick={onAddImageHandler}
-                    >
-                        <b>ADD IMAGES</b>
-                    </Button>
+                    <div style={{ padding: 20 }}>
+                        <Button>
+                            <input
+                                type="file"
+                                onChange={fileHandler}
+                                accept="image/png, image/jpeg, image/jpg"
+                                style={{ fontSize: "1rem" }}
+                            />
+                        </Button>
+                        <Button
+                            size="medium"
+                            variant="contained"
+                            color="primary"
+                            onClick={onAddImageHandler}
+                        >
+                            <b>ADD IMAGES</b>
+                        </Button>
+                    </div>
+                </Grid>
                     <Snackbar
                         open={openAlertSuccess}
                         autoHideDuration={6000}
@@ -280,31 +358,9 @@ const AdminHome = ({ history }) => {
                         </Alert>
                     </Snackbar>
                 </Grid>
-                <Grid item xs={10} className={classes.section1}>
-                    <hr />
-                    <br />
-                    <h1>Subscibers' List</h1>
-                    <Grid
-                        item
-                        xs={10}
-                        className={classes.section1}
-                        justify="center"
-                    >
-                        <br />
-                        <TextField
-                            id="keyword"
-                            label="start typing to search..."
-                            variant="outlined"
-                            onChange={e => {
-                                setKeyword(e.target.value);
-                            }}
-                        />
-                        {subsciberItem}
-                    </Grid>
-                </Grid>
             </Grid>
         </div>
     );
 };
 
-export default AdminHome;
+export default EditAbout;

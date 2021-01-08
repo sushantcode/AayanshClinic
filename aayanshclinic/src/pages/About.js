@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { db } from "../components/FirebaseAuth";
 import Grid from "@material-ui/core/Grid";
 import "./Pages.css";
 
@@ -11,6 +12,30 @@ const useStyles = makeStyles(theme => ({
 
 const About = () => {
     const classes = useStyles();
+    const [team, setTeam] = useState([]);
+
+    db
+        .collection("Teams")
+        .get()
+        .then(data => {
+            let teams = [];
+            data.forEach(doc => {
+                teams.push({
+                    teamDocId: doc.id,
+                    teamName: doc.data().teamName
+                });
+            });
+            setTeam(teams);
+        })
+        .catch(err => {
+            alert(err);
+        });
+
+        let teamItem = team
+        ? team.map(item =>
+                <li>{item.teamName}</li>
+              )
+        : <li>Error: No Team Member Loaded</li>;
 
     return (
         <div className="container-about">
@@ -22,14 +47,7 @@ const About = () => {
                     <hr />
                     <br />
                     <ul className="teamList">
-                        <li>Akshay Gupta, Health Professional</li>
-                        <li>Deepak Yadav, MBBS</li>
-                        <li>
-                            Amit Kumar Gupta, Medical Consultant Advisor,
-                            Hamburg, Germany
-                        </li>
-                        <li>Pooja Kumari, Registered Nurse (BPKIHS)</li>
-                        <li>Dr. Ghanshyam Kumar Yadav, Senior Consultant Physician</li>
+                        {teamItem}
                     </ul>
                 </Grid>
                 <Grid item xs={10} className={classes.section1}>

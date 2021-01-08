@@ -61,16 +61,16 @@ function AdminNavbar() {
                 </li>
                 <li className="nav-item">
                     <Link
-                        to="/services"
+                        to="/appointment"
                         className="nav-links"
                         onClick={closeMobileViewMenu}
                     >
-                        EDIT SERVICES
+                        APPOINTMENTS
                     </Link>
                 </li>
                 <li className="nav-item">
                     <Link
-                        to="/about"
+                        to="/editabout"
                         className="nav-links"
                         onClick={closeMobileViewMenu}
                     >
@@ -79,7 +79,7 @@ function AdminNavbar() {
                 </li>
                 <li className="nav-item">
                     <Link
-                        to="/contact"
+                        to="/editcontact"
                         className="nav-links"
                         onClick={closeMobileViewMenu}
                     >
