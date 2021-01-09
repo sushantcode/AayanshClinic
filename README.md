@@ -116,7 +116,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ## Authors
 
-* **Gupta, Sushant** - *Core Team Member* - [Profile](https://github.com/sushantcode)
+* **Gupta, Sushant** - *Main Developer* - [Profile](https://github.com/sushantcode)
 
 
 ## License
