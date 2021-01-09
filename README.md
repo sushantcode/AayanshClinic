@@ -24,6 +24,12 @@ A website for a local medical clinic and pharmacy in Nepal. The app features gen
 - Firebase
 - Firebase-tool (Version 8.11.2 is used while developing) to deploy
 
+### Languages Used for Development
+
+- Javascript (ReactJS Library)
+- HTML
+- CSS
+
 ### Dependencies lists
 
 - "@material-ui/core": "^4.11.2",
