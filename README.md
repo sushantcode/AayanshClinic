@@ -121,7 +121,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/sushantcode/AayanshClinic/blob/main/LICENSE) file for details
 
 
 ## Live Website
