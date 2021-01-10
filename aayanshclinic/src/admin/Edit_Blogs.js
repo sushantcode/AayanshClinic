@@ -43,24 +43,24 @@ const useStyles = makeStyles(theme => ({
         }
     },
     buttonGroup: {
-        '& > *': {
-          margin: theme.spacing(1),
-        },
-      }
+        "& > *": {
+            margin: theme.spacing(1)
+        }
+    }
 }));
 
-const styles = (theme) => ({
+const styles = theme => ({
     root: {
-      margin: 0,
-      padding: theme.spacing(2),
+        margin: 0,
+        padding: theme.spacing(2)
     },
     closeButton: {
-      position: "absolute",
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
-    },
-  });
+        position: "absolute",
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: theme.palette.grey[500]
+    }
+});
 
 const DialogTitle = withStyles(styles)(props => {
     const { children, classes, onClose, ...other } = props;
@@ -88,12 +88,12 @@ const DialogContent = withStyles(theme => ({
     }
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
+const DialogActions = withStyles(theme => ({
     root: {
-      margin: 0,
-      padding: theme.spacing(1),
-    },
-  }))(MuiDialogActions);
+        margin: 0,
+        padding: theme.spacing(1)
+    }
+}))(MuiDialogActions);
 
 const EditBlogs = ({ history }) => {
     if (!firebaseAuth.currentUser) {
@@ -110,6 +110,9 @@ const EditBlogs = ({ history }) => {
     const [successMsg, setSuccessMsg] = useState("");
     const [keyword, setKeyword] = useState("");
     const [openDialog, setOpenDialog] = useState(false);
+    const [loadingDelBlog, setloadingDelBlog] = useState(false);
+    const [loadingAddImage, setloadingAddImage] = useState(false);
+    const [loadingAddBlog, setlloadingAddBlog] = useState(false);
 
     db
         .collection("Blogs")
@@ -123,7 +126,7 @@ const EditBlogs = ({ history }) => {
                     author: doc.data().author,
                     createdAt: doc.data().createdAt,
                     img: doc.data().img,
-                    body: doc.data().body.substring(0, 310) + "..."
+                    body: doc.data().body.substring(0, 350) + "..."
                 });
             });
             setBlogs(blog);
@@ -134,17 +137,20 @@ const EditBlogs = ({ history }) => {
         });
 
     const onBlogDeleteHandler = docId => {
+        setloadingDelBlog(true);
         db
             .doc(`Blogs/${docId}`)
             .delete()
             .then(() => {
                 setError("");
-                setSuccessMsg("Message has been removed successfully!!!");
+                setSuccessMsg("Blog has been removed successfully!!!");
                 setOpenAlertSuccess(true);
+                setloadingDelBlog(false);
             })
             .catch(err => {
                 setError(err.message);
                 setOpenAlertError(true);
+                setloadingDelBlog(false);
             });
     };
 
@@ -155,6 +161,7 @@ const EditBlogs = ({ history }) => {
     };
 
     const onAddImageHandler = () => {
+        setloadingAddImage(true);
         try {
             // uploading image to the firebase storage
             const uploadToFirebase = storage
@@ -175,58 +182,72 @@ const EditBlogs = ({ history }) => {
                         .getDownloadURL()
                         .then(Url => {
                             setImgSrc(Url);
+                            setloadingAddImage(false);
                             setOpenDialog(false);
                         })
                         .catch(err => {
                             setError(err.message);
                             setOpenAlertError(true);
+                            setloadingAddImage(false);
                         });
                 }
             );
         } catch (err) {
             setError(err.message);
             setOpenAlertError(true);
+            setloadingAddImage(false);
         }
     };
 
-    const onSubmitHandler = useCallback(async event => {
-        event.preventDefault();
-        const { title, author, body } = event.target.elements;
-        if (title.value === "") {
-            setError("*Must provide a title of the blog.");
-            setOpenAlertError(true);
-        } else if (author.value === "") {
-            author.value = "Anonymous";
-        } else if (body.value === "") {
-            setError("*Must provide a title of the blog.");
-            setOpenAlertError(true);
-        } else {
-            try {
-                const newBlog = {
-                    title: title.value,
-                    author: author.value,
-                    imgSrc: imgSrc,
-                    body: body.value
-                };
-                // Pushing the user information once user is signed up successfully to database
-                db
-                    .collection("Blogs")
-                    .add(newBlog)
-                    .then(() => {
-                        setError("");
-                        setSuccessMsg("New Blog has been added successfully");
-                        setOpenAlertSuccess(true);
-                    })
-                    .catch(err => {
-                        setError(err.message);
-                        setOpenAlertError(true);
-                    });
-            } catch (err) {
-                setError(err.message);
+    const onSubmitHandler = useCallback(
+        async event => {
+            setlloadingAddBlog(true);
+            event.preventDefault();
+            const { title, author, body } = event.target.elements;
+            if (title.value === "") {
+                setError("*Must provide a title of the blog.");
                 setOpenAlertError(true);
+                setlloadingAddBlog(false);
+            } else if (author.value === "") {
+                author.value = "Anonymous";
+            } else if (body.value === "") {
+                setError("*Must provide a title of the blog.");
+                setOpenAlertError(true);
+                setlloadingAddBlog(false);
+            } else {
+                try {
+                    const newBlog = {
+                        title: title.value,
+                        author: author.value,
+                        imgSrc: imgSrc,
+                        body: body.value
+                    };
+                    // Pushing the user information once user is signed up successfully to database
+                    db
+                        .collection("Blogs")
+                        .add(newBlog)
+                        .then(() => {
+                            setError("");
+                            setSuccessMsg(
+                                "New Blog has been added successfully"
+                            );
+                            setOpenAlertSuccess(true);
+                            setlloadingAddBlog(false);
+                        })
+                        .catch(err => {
+                            setError(err.message);
+                            setOpenAlertError(true);
+                            setlloadingAddBlog(false);
+                        });
+                } catch (err) {
+                    setError(err.message);
+                    setOpenAlertError(true);
+                    setlloadingAddBlog(false);
+                }
             }
-        }
-    }, [imgSrc]);
+        },
+        [imgSrc]
+    );
 
     const handleCloseAlertError = () => {
         setOpenAlertError(false);
@@ -238,10 +259,10 @@ const EditBlogs = ({ history }) => {
 
     const handleClickOpenDialog = () => {
         setOpenDialog(true);
-      };
-      const handleCloseDialog = () => {
+    };
+    const handleCloseDialog = () => {
         setOpenDialog(false);
-      };
+    };
 
     let blogComponent = [];
     if (blogs) {
@@ -254,12 +275,12 @@ const EditBlogs = ({ history }) => {
             .map(eachItem => {
                 if (eachItem.img !== "") {
                     return (
-                        <Card style={{ height: "55vh" }}>
+                        <Card>
                             <CardActionArea>
                                 <CardMedia
                                     component="img"
                                     alt="Slide Image"
-                                    height="110vh"
+                                    height="150"
                                     image={eachItem.img}
                                     title="Slide Image"
                                 />
@@ -286,15 +307,16 @@ const EditBlogs = ({ history }) => {
                                     color="secondary"
                                     onClick={() =>
                                         onBlogDeleteHandler(eachItem.docId)}
+                                    startIcon={<DeleteIcon />}
                                 >
-                                    <DeleteIcon /> DELETE
+                                    DELETE
                                 </Button>
                             </CardActions>
                         </Card>
                     );
                 } else {
                     return (
-                        <Card style={{ height: "55vh" }}>
+                        <Card>
                             <CardActionArea>
                                 <CardContent>
                                     <Typography
@@ -317,10 +339,17 @@ const EditBlogs = ({ history }) => {
                                 <Button
                                     size="small"
                                     color="secondary"
+                                    disabled={loadingDelBlog}
                                     onClick={() =>
                                         onBlogDeleteHandler(eachItem.docId)}
+                                    startIcon={<DeleteIcon />}
                                 >
-                                    <DeleteIcon /> DELETE
+                                    {loadingDelBlog &&
+                                        <i
+                                            class="fas fa-cog fa-spin"
+                                            style={{ color: "red" }}
+                                        />}
+                                    DELETE
                                 </Button>
                             </CardActions>
                         </Card>
@@ -366,7 +395,7 @@ const EditBlogs = ({ history }) => {
                     <h1>ADD NEW BLOG</h1>
                     <br />
                     <hr />
-                    <div style={{textAlign: "center"}}>
+                    <div style={{ textAlign: "center" }}>
                         <form
                             className={classes.messageForm}
                             noValidate
@@ -407,7 +436,9 @@ const EditBlogs = ({ history }) => {
                                 size="large"
                                 className="addBlogBtn"
                                 type="submit"
+                                disabled={loadingAddBlog}
                             >
+                                {loadingAddBlog && <i class="fas fa-sync fa-spin" style={{color: "blue"}}></i>}
                                 <b>UPLOAD BLOG</b>
                             </Button>
                         </form>
@@ -436,8 +467,15 @@ const EditBlogs = ({ history }) => {
                     </Alert>
                 </Snackbar>
             </Grid>
-            <Dialog onClose={handleCloseDialog} aria-labelledby="customized-dialog-title" open={openDialog}>
-                <DialogTitle id="customized-dialog-title" onClose={handleCloseDialog}>
+            <Dialog
+                onClose={handleCloseDialog}
+                aria-labelledby="customized-dialog-title"
+                open={openDialog}
+            >
+                <DialogTitle
+                    id="customized-dialog-title"
+                    onClose={handleCloseDialog}
+                >
                     Uploading Blog Image
                 </DialogTitle>
                 <DialogContent dividers>
@@ -451,9 +489,16 @@ const EditBlogs = ({ history }) => {
                     </Button>
                 </DialogContent>
                 <DialogActions>
-                <Button autoFocus onClick={onAddImageHandler} color="default" variant="contained">
-                    <b>Upload</b>
-                </Button>
+                    <Button
+                        autoFocus
+                        onClick={onAddImageHandler}
+                        color="default"
+                        variant="contained"
+                        disabled={loadingAddImage}
+                    >
+                        {loadingAddImage && <i class="fas fa-sync fa-spin" style={{color: "blue"}}></i>}
+                        <b>Upload</b>
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>

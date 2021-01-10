@@ -35,6 +35,7 @@ const EditContact = ({ history }) => {
     const [openAlertSuccess, setOpenAlertSuccess] = useState(false);
     const [successMsg, setSuccessMsg] = useState("");
     const [keyword, setKeyword] = useState("");
+    const [loadingDelMsg, setloadingDelMsg] = useState(false);
 
     db
         .collection("Message")
@@ -59,19 +60,20 @@ const EditContact = ({ history }) => {
         });
 
     const onMessageDeleteHandler = docId => {
+        setloadingDelMsg(true);
         db
             .doc(`Message/${docId}`)
             .delete()
             .then(() => {
                 setError("");
-                setSuccessMsg(
-                    "Message has been removed successfully!!!"
-                );
+                setSuccessMsg("Message has been removed successfully!!!");
                 setOpenAlertSuccess(true);
+                setloadingDelMsg(false);
             })
             .catch(err => {
                 setError(err.message);
                 setOpenAlertError(true);
+                setloadingDelMsg(false);
             });
     };
 
@@ -128,10 +130,13 @@ const EditContact = ({ history }) => {
                               <Button
                                   size="small"
                                   color="secondary"
+                                  startIcon={<DeleteIcon />}
+                                  disabled={loadingDelMsg}
                                   onClick={() =>
                                       onMessageDeleteHandler(item.docId)}
                               >
-                                  <DeleteIcon /> DELETE
+                                  {loadingDelMsg && <i class="fas fa-cog fa-spin" style={{color: "red"}}></i>}
+                                  DELETE
                               </Button>
                           </CardActions>
                       </Card>

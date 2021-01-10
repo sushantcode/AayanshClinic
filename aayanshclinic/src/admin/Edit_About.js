@@ -40,6 +40,10 @@ const EditAbout = ({ history }) => {
     const [successMsg, setSuccessMsg] = useState("");
     const [keyword, setKeyword] = useState("");
     const [newTeam, setNewTeam] = useState("");
+    const [loadingAddImage, setloadingAddImage] = useState(false);
+    const [loadingAddTeamList, setlloadingAddTeamList] = useState(false);
+    const [loadingDelImage, setloadingDelImage] = useState(false);
+    const [loadingDelTeamList, setloadingDelTeamList] = useState(false);
 
     db
         .collection("Teams")
@@ -78,6 +82,7 @@ const EditAbout = ({ history }) => {
         });
 
     const onAddClickHandler = event => {
+        setlloadingAddTeamList(true);
         event.preventDefault();
         if (newTeam !== "") {
             const newTeamDoc = {
@@ -88,14 +93,22 @@ const EditAbout = ({ history }) => {
                 setSuccessMsg("Team Member Added Successfully!!!");
                 setNewTeam("");
                 setOpenAlertSuccess(true);
+                setlloadingAddTeamList(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setOpenAlertError(true);
+                setlloadingAddTeamList(false);
             });
         } else {
             setError("Must Have a Team Member Name and Title.");
             setOpenAlertError(true);
+            setlloadingAddTeamList(false);
         }
     };
 
     const onTeamListDeleteHandler = teamDocId => {
+        setloadingDelTeamList(true);
         db
             .doc(`Teams/${teamDocId}`)
             .delete()
@@ -103,10 +116,12 @@ const EditAbout = ({ history }) => {
                 setError("");
                 setSuccessMsg("Team member has been removed successfully!!!");
                 setOpenAlertSuccess(true);
+                setloadingDelTeamList(false);
             })
             .catch(err => {
                 setError(err.message);
                 setOpenAlertError(true);
+                setloadingDelTeamList(false);
             });
     };
 
@@ -117,6 +132,7 @@ const EditAbout = ({ history }) => {
     };
 
     const onAddImageHandler = () => {
+        setloadingAddImage(true);
         try {
             // uploading image to the firebase storage
             const uploadToFirebase = storage
@@ -148,26 +164,31 @@ const EditAbout = ({ history }) => {
                                         "New Certificate is Added Successfully!!!"
                                     );
                                     setOpenAlertSuccess(true);
+                                    setloadingAddImage(false);
                                     setImgFile(null);
                                 })
                                 .catch(err => {
                                     setError(err.message);
                                     setOpenAlertError(true);
+                                    setloadingAddImage(false);
                                 });
                         })
                         .catch(err => {
                             setError(err.message);
                             setOpenAlertError(true);
+                            setloadingAddImage(false);
                         });
                 }
             );
         } catch (err) {
             setError(err.message);
             setOpenAlertError(true);
+            setloadingAddImage(false);
         }
     };
 
     const onImgDeleteHandler = (docId, imgSrc) => {
+        setloadingDelImage(true);
         db.doc(`Certificates/${docId}`).delete().then(() => {
             storage
                 .refFromURL(imgSrc)
@@ -176,10 +197,12 @@ const EditAbout = ({ history }) => {
                     setError("");
                     setSuccessMsg("Image Removed Successfully!!!");
                     setOpenAlertSuccess(true);
+                    setloadingDelImage(false);
                 })
                 .catch(err => {
                     setError(err.message);
                     setOpenAlertError(true);
+                    setloadingDelImage(false);
                 });
         });
     };
@@ -206,9 +229,11 @@ const EditAbout = ({ history }) => {
                           <Button
                               size="small"
                               color="secondary"
+                              disabled={loadingDelTeamList}
                               onClick={() =>
                                   onTeamListDeleteHandler(item.teamDocId)}
                           >
+                              {loadingDelTeamList && <i class="fas fa-cog fa-spin" style={{color: "red"}}></i>}
                               <i class="fas fa-trash-alt" />
                           </Button>
                       </ListItem>
@@ -235,10 +260,13 @@ const EditAbout = ({ history }) => {
                           <Button
                               size="small"
                               color="secondary"
+                              disabled={loadingDelImage}
+                              startIcon={<DeleteIcon />}
                               onClick={() =>
                                   onImgDeleteHandler(img.docId, img.src)}
                           >
-                              <DeleteIcon /> DELETE
+                              {loadingDelImage && <i class="fas fa-cog fa-spin" style={{color: "red"}}></i>}
+                              DELETE
                           </Button>
                       </CardActions>
                   </Card>
@@ -301,8 +329,10 @@ const EditAbout = ({ history }) => {
                                 size="medium"
                                 variant="contained"
                                 color="primary"
+                                disabled={loadingAddTeamList}
                                 onClick={onAddClickHandler}
                             >
+                                {loadingAddTeamList && <i class="fas fa-sync fa-spin" style={{color: "blue"}}></i>}
                                 <b>ADD MEMBER</b>
                             </Button>
                         </Grid>
@@ -326,9 +356,11 @@ const EditAbout = ({ history }) => {
                             size="medium"
                             variant="contained"
                             color="primary"
+                            disabled={loadingAddImage}
                             onClick={onAddImageHandler}
                         >
-                            <b>ADD IMAGES</b>
+                            {loadingAddImage && <i class="fas fa-sync fa-spin" style={{color: "blue"}}></i>}
+                            <b>ADD IMAGE</b>
                         </Button>
                     </div>
                 </Grid>

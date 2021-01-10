@@ -39,6 +39,9 @@ const AdminHome = ({ history }) => {
     const [openAlertSuccess, setOpenAlertSuccess] = useState(false);
     const [successMsg, setSuccessMsg] = useState("");
     const [keyword, setKeyword] = useState("");
+    const [loadingAddImage, setloadingAddImage] = useState(false);
+    const [loadingDelImage, setloadingDelImage] = useState(false);
+    const [loadingDelSubList, setloadingDelSubList] = useState(false);
 
     db
         .collection("SlideShowImages")
@@ -77,6 +80,7 @@ const AdminHome = ({ history }) => {
         });
 
     const onImgDeleteHandler = (imgId, imgSrc) => {
+        setloadingDelImage(true);
         db.doc(`SlideShowImages/${imgId}`).delete().then(() => {
             storage
                 .refFromURL(imgSrc)
@@ -85,15 +89,18 @@ const AdminHome = ({ history }) => {
                     setError("");
                     setSuccessMsg("Image Removed Successfully!!!");
                     setOpenAlertSuccess(true);
+                    setloadingDelImage(false);
                 })
                 .catch(err => {
                     setError(err.message);
                     setOpenAlertError(true);
+                    setloadingDelImage(false);
                 });
         });
     };
 
     const onSubListDeleteHandler = listId => {
+        setloadingDelSubList(true);
         db
             .doc(`Subscribers/${listId}`)
             .delete()
@@ -101,10 +108,12 @@ const AdminHome = ({ history }) => {
                 setError("");
                 setSuccessMsg("Email Is Removed Successfully!!!");
                 setOpenAlertSuccess(true);
+                setloadingDelSubList(false);
             })
             .catch(err => {
                 setError(err.message);
                 setOpenAlertError(true);
+                setloadingDelSubList(false);
             });
     };
 
@@ -115,6 +124,7 @@ const AdminHome = ({ history }) => {
     };
 
     const onAddImageHandler = () => {
+        setloadingAddImage(true);
         try {
             // uploading image to the firebase storage
             const uploadToFirebase = storage
@@ -147,22 +157,26 @@ const AdminHome = ({ history }) => {
                                         "Image Added Successfully!!!"
                                     );
                                     setOpenAlertSuccess(true);
+                                    setloadingAddImage(false);
                                     setImgFile(null);
                                 })
                                 .catch(err => {
                                     setError(err.message);
                                     setOpenAlertError(true);
+                                    setloadingAddImage(false);
                                 });
                         })
                         .catch(err => {
                             setError(err.message);
                             setOpenAlertError(true);
+                            setloadingAddImage(false);
                         });
                 }
             );
         } catch (err) {
             setError(err.message);
             setOpenAlertError(true);
+            setloadingAddImage(false);
         }
     };
 
@@ -191,25 +205,34 @@ const AdminHome = ({ history }) => {
                           <Button
                               size="small"
                               color="secondary"
+                              disabled={loadingDelImage}
                               onClick={() =>
                                   onImgDeleteHandler(img.imgId, img.src)}
+                              startIcon={<DeleteIcon />}
                           >
-                              <DeleteIcon /> DELETE
+                              {loadingDelImage &&
+                                  <i
+                                      class="fas fa-cog fa-spin"
+                                      style={{ color: "red" }}
+                                  />}
+                              DELETE
                           </Button>
                       </CardActions>
                   </Card>
               </Grid>
           )
-        :   <Grid item xs={10} sm={5}>
-                <Typography variant="h3" align="center">
-                    No Image Found
-                </Typography>
-            </Grid>;
+        : <Grid item xs={10} sm={5}>
+              <Typography variant="h3" align="center">
+                  No Image Found
+              </Typography>
+          </Grid>;
 
     let subsciberItem = subscibers
         ? subscibers
               .filter(
-                  item => (keyword === "" && true) || item.email.substring(0, keyword.length) === keyword
+                  item =>
+                      (keyword === "" && true) ||
+                      item.email.substring(0, keyword.length) === keyword
               )
               .map(item =>
                   <List>
@@ -218,16 +241,22 @@ const AdminHome = ({ history }) => {
                           <Button
                               size="small"
                               color="secondary"
+                              disabled={loadingDelSubList}
                               onClick={() => onSubListDeleteHandler(item.subId)}
                           >
+                              {loadingDelSubList &&
+                                  <i
+                                      class="fas fa-cog fa-spin"
+                                      style={{ color: "red" }}
+                                  />}
                               <i class="fas fa-trash-alt" />
                           </Button>
                       </ListItem>
                   </List>
               )
-        :   <Typography variant="h4" align="center">
-                No Subscribers Found
-            </Typography>;
+        : <Typography variant="h4" align="center">
+              No Subscribers Found
+          </Typography>;
 
     return (
         <div className="container-admin-home">
@@ -239,22 +268,30 @@ const AdminHome = ({ history }) => {
                     <Grid container spacing={2} justify="center">
                         {imageCard}
                     </Grid>
-                    <Button>
-                        <input
-                            type="file"
-                            onChange={fileHandler}
-                            accept="image/png, image/jpeg, image/jpg"
-                            style={{ fontSize: "1rem" }}
-                        />
-                    </Button>
-                    <Button
-                        size="medium"
-                        variant="contained"
-                        color="primary"
-                        onClick={onAddImageHandler}
-                    >
-                        <b>ADD IMAGES</b>
-                    </Button>
+                    <div align="center">
+                        <Button>
+                            <input
+                                type="file"
+                                onChange={fileHandler}
+                                accept="image/png, image/jpeg, image/jpg"
+                                style={{ fontSize: "1rem" }}
+                            />
+                        </Button>
+                        <Button
+                            size="medium"
+                            variant="contained"
+                            color="primary"
+                            onClick={onAddImageHandler}
+                            disabled={loadingAddImage}
+                        >
+                            {loadingAddImage &&
+                                <i
+                                    class="fas fa-sync fa-spin"
+                                    style={{ color: "blue" }}
+                                />}
+                            <b>ADD NEW IMAGE</b>
+                        </Button>
+                    </div>
                     <Snackbar
                         open={openAlertSuccess}
                         autoHideDuration={6000}
@@ -264,7 +301,7 @@ const AdminHome = ({ history }) => {
                             onClose={handleCloseAlertSuccess}
                             severity="success"
                         >
-                            <h4 style={{ color: "red", marginTop: 10 }}>
+                            <h4 style={{ color: "blue", marginTop: 10 }}>
                                 {" "}{successMsg}
                             </h4>
                         </Alert>

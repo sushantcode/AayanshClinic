@@ -5,16 +5,8 @@ import { Carousel } from "react-responsive-carousel";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { db } from "../components/FirebaseAuth";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
-import Link from "react-router-dom/Link";
 
 const useStyles = theme => ({
     section1: {
@@ -55,29 +47,6 @@ class Home extends Component {
                 });
                 this.setState({
                     items: images
-                });
-            })
-            .catch(err => {
-                alert(err);
-            });
-
-        db
-            .collection("Blogs")
-            .get()
-            .then(data => {
-                let blog = [];
-                data.forEach(doc => {
-                    blog.push({
-                        blogId: doc.id,
-                        title: doc.data().title,
-                        author: doc.data().author,
-                        createdAt: doc.data().createdAt,
-                        img: doc.data().img,
-                        body: doc.data().body.substring(0, 150) + "..."
-                    });
-                });
-                this.setState({
-                    blogs: blog
                 });
             })
             .catch(err => {
@@ -136,89 +105,7 @@ class Home extends Component {
             );
         }
 
-        let blogComponent = [];
-        if (this.state.blogs) {
-            blogComponent = this.state.blogs.map(eachItem => {
-                if (eachItem.img !== "") {
-                    return (
-                        <Card style={{height: "45vh"}}>
-                            <CardActionArea>
-                                <CardMedia
-                                    component="img"
-                                    alt="Slide Image"
-                                    height="110vh"
-                                    image={eachItem.img}
-                                    title="Slide Image"
-                                />
-                                <CardContent>
-                                    <Typography
-                                        gutterBottom
-                                        variant="h5"
-                                        component="h3"
-                                    >
-                                        {eachItem.title}
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        color="textSecondary"
-                                        component="p"
-                                    >
-                                        {eachItem.body}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary" component={Link}
-                                    to={{
-                                        pathname: "/singleBlog",
-                                        state: {
-                                            blogDocId: eachItem.blogId
-                                        }
-                                    }}>
-                                    Learn More
-                                </Button>
-                            </CardActions>
-                        </Card>
-                    );
-                } else {
-                    return (
-                        <Card style={{height: "50vh"}}>
-                            <CardActionArea>
-                                <CardContent>
-                                    <Typography
-                                        gutterBottom
-                                        variant="h5"
-                                        component="h2"
-                                    >
-                                        {eachItem.title}
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        color="textSecondary"
-                                        component="p"
-                                    >
-                                        {eachItem.body}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary" component={Link}
-                                    to={{
-                                        pathname: "/singleBlog",
-                                        state: {
-                                            blogDocId: eachItem.blogId
-                                        }
-                                    }}>
-                                    Learn More
-                                </Button>
-                            </CardActions>
-                        </Card>
-                    );
-                }
-            });
-        }
-
-        let slides = imageComponent.concat(blogComponent);
+        let slides = imageComponent;
 
         return (
             <div className="container-home">
