@@ -4,14 +4,14 @@ import "firebase/auth";
 import "firebase/storage";
 
 const app = firebase.initializeApp({
-    apiKey: "AIzaSyBhVndpU95bMbKlKeu4y81GwiEtCRYpFaQ",
-    authDomain: "aayansh-clinic.firebaseapp.com",
-    databaseURL: "https://aayansh-clinic.firebaseio.com",
-    projectId: "aayansh-clinic",
-    storageBucket: "aayansh-clinic.appspot.com",
-    messagingSenderId: "666831574732",
-    appId: "1:666831574732:web:7c3cd99e6c1db410919469",
-    measurementId: "G-YMEF4H8RCJ"
+    apiKey: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON",
+    authDomain: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON",
+    databaseURL: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON",
+    projectId: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON",
+    storageBucket: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON",
+    messagingSenderId: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON",
+    appId: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON",
+    measurementId: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON"
  });
 
 export const db = app.firestore();
