@@ -4,15 +4,18 @@ A website for a local medical clinic and pharmacy in Nepal. The app features gen
 
 ### Features
 * Home, service, about-us, and contact-us pages for general information 
-* Slide show of images and blog posts
+* Slide show of images of admin choice
 * Subscriber feature to get latest health news
-* Appointment booking feature
+* Fully automated Appointment booking feature powered by Calendly
 * Message feature to get message from customer
-* Google map integrated to show the clinic location
+* Integrated Google map to show the clinic location
+* Blog page to show all blogs in card view by admin and associates on health topics
+* Ability to redirect each blog card to reveal full blog
+* Ability to share each blog using the several social medias share buttons
 * Admin login feature for authorized user
 * Password reset option
 * Option to remove and add images to slide show collection
-* Option to remove subscriber list, message, and appointment
+* Option to remove subscriber list, and message once read
 * Admin can add and remove blogs
 
 
@@ -42,10 +45,12 @@ A website for a local medical clinic and pharmacy in Nepal. The app features gen
 - "firebase-tools": "^9.0.1",
 - "google-maps-react": "^2.0.6",
 - "react": "^17.0.1",
+- "react-calendly": "^1.3.0",
 - "react-dom": "^17.0.1",
 - "react-responsive-carousel": "^3.2.11",
 - "react-router-dom": "^5.2.0",
 - "react-scripts": "4.0.1",
+- "react-share": "^4.3.1",
 - "web-vitals": "^0.2.4"
 
 ### Create React App
