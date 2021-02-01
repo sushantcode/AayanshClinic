@@ -266,5 +266,5 @@ const Contact = props => {
 };
 
 export default GoogleApiWrapper({
-    apiKey: "AIzaSyBoXHbYKSDMHUgZaqmhFIbIGGor-UK7D30"
+    apiKey: "PROJECT_API_KEY_REMOVED_FOR_SECURITY_REASON"
 })(Contact);
