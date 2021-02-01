@@ -6,6 +6,24 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
+import {
+    EmailShareButton,
+    FacebookShareButton,
+    LinkedinShareButton,
+    RedditShareButton,
+    TwitterShareButton,
+    ViberShareButton,
+    WhatsappShareButton,
+  } from "react-share";
+import {
+    EmailIcon,
+    FacebookIcon,
+    LinkedinIcon,
+    RedditIcon,
+    TwitterIcon,
+    ViberIcon,
+    WhatsappIcon
+  } from "react-share";
 import Typography from "@material-ui/core/Typography";
 import { db } from "../components/FirebaseAuth";
 import { useParams } from "react-router-dom";
@@ -114,6 +132,34 @@ const SingleBlog = () => {
             <Grid container spacing={0} justify="center">
                 <Grid item xs={10} className={classes.section1}>
                     {blogComponent}
+                </Grid>
+                <Grid item xs={10} className={classes.section1}>
+                    <Typography
+                        variant="body2"
+                        color="textSecondary">
+                        <b>SHARE WITH: </b>
+                    </Typography>
+                    <EmailShareButton url={window.location.href} className="share-buttons">
+                        <EmailIcon size={32} round={true} style={{textDecoration: "none"}} />
+                    </EmailShareButton>
+                    <FacebookShareButton url={window.location.href}>
+                        <FacebookIcon size={32} round={true} />
+                    </FacebookShareButton>
+                    <LinkedinShareButton url={window.location.href}>
+                        <LinkedinIcon size={32} round={true} />
+                    </LinkedinShareButton>
+                    <RedditShareButton url={window.location.href}>
+                        <RedditIcon size={32} round={true} />
+                    </RedditShareButton>
+                    <TwitterShareButton url={window.location.href}>
+                        <TwitterIcon size={32} round={true} />
+                    </TwitterShareButton>
+                    <ViberShareButton url={window.location.href}>
+                        <ViberIcon size={32} round={true} />
+                    </ViberShareButton>
+                    <WhatsappShareButton url={window.location.href}>
+                        <WhatsappIcon size={32} round={true} />
+                    </WhatsappShareButton>
                 </Grid>
             </Grid>
         </div>

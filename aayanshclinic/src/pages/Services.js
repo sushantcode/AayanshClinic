@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import { InlineWidget } from "react-calendly";
 import "./Pages.css";
 
 const useStyles = makeStyles(theme => ({
@@ -8,7 +9,6 @@ const useStyles = makeStyles(theme => ({
         marginBottom: 20
     },
     section2: {
-        height: 300,
         marginBottom: 30,
         backgroundImage: `url(${"https://firebasestorage.googleapis.com/v0/b/aayansh-clinic.appspot.com/o/images%2Fhologram-image-doctor.jpg?alt=media&token=61f6f85f-5abe-4371-8ce7-275fa58ebe1c"})`
     }
@@ -75,9 +75,7 @@ const Services = () => {
                         <b>ONLINE APPOINTMENTS</b>
                     </h2>
                     <hr />
-                    <br />
-                    <p>This service is coming soon...</p>
-                    <br />
+                    <InlineWidget url="https://calendly.com/aayanshclinic/health-appointment" />
                 </Grid>
             </Grid>
         </div>

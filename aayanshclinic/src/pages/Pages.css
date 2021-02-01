@@ -141,6 +141,10 @@
     text-decoration: none;
 }
 
+.share-buttons {
+    text-decoration: none;
+}
+
 @media screen and (max-width: 900px) {
     .email {
         max-width: 50%;

@@ -48,54 +48,45 @@ function AdminNavbar() {
                 <i className={click ? "fas fa-times" : "fas fa-bars"} />
             </div>
             {/* Set navbar sizes on the basis of screen */}
-            <ul className={click ? "nav-menu active" : "nav-menu"}>
+            <ul className={click ? "admin-nav-menu active" : "admin-nav-menu"}>
                 {/* Links to the respected pages both on the browser and mobile view */}
-                <li className="nav-item">
+                <li className="admin-nav-item">
                     <Link
                         to="/admin-home"
-                        className="nav-links"
+                        className="admin-nav-links"
                         onClick={closeMobileViewMenu}
                     >
                         EDIT HOME
                     </Link>
                 </li>
-                <li className="nav-item">
-                    <Link
-                        to="/appointment"
-                        className="nav-links"
-                        onClick={closeMobileViewMenu}
-                    >
-                        APPOINTMENTS
-                    </Link>
-                </li>
-                <li className="nav-item">
+                <li className="admin-nav-item">
                     <Link
                         to="/editabout"
-                        className="nav-links"
+                        className="admin-nav-links"
                         onClick={closeMobileViewMenu}
                     >
                         EDIT ABOUT-US
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="admin-nav-item">
                     <Link
                         to="/editcontact"
-                        className="nav-links"
+                        className="admin-nav-links"
                         onClick={closeMobileViewMenu}
                     >
                         EDIT CONTACT-US
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="admin-nav-item">
                     <Link
                         to="/editblogs"
-                        className="nav-links"
+                        className="admin-nav-links"
                         onClick={closeMobileViewMenu}
                     >
                         EDIT BLOGS
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="admin-nav-item">
                     <Button
                         variant="contained"
                         color="primary"
